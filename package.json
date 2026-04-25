@@ -1,0 +1,43 @@
+{
+  "name": "airmark-quiver",
+  "version": "0.1.0",
+  "description": "Airmark Quiver — Air Force and DAF document Quills for Quillmark.",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "files": [
+    "quills",
+    "Quiver.yaml",
+    "index.js",
+    "index.d.ts"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "@quillmark/quiver": "0.1.1",
+    "@quillmark/wasm": "0.59.0"
+  },
+  "devDependencies": {
+    "@quillmark/quiver": "0.1.1",
+    "@quillmark/wasm": "0.59.0"
+  },
+  "scripts": {
+    "test": "node scripts/validate.mjs"
+  },
+  "keywords": [
+    "quillmark",
+    "quiver",
+    "typst",
+    "usaf",
+    "daf",
+    "airmark"
+  ],
+  "license": "Apache-2.0"
+}

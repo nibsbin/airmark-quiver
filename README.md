@@ -78,8 +78,9 @@ quills/
 
 `quiver.test.js` at the repo root runs the
 [`@quillmark/quiver/testing`](https://www.npmjs.com/package/@quillmark/quiver)
-suite under [Vitest](https://vitest.dev/), validating each `(quill, version)`
-pair through the full load + `engine.quill(tree)` compile pipeline:
+suite under the built-in [`node:test`](https://nodejs.org/api/test.html) runner,
+validating each `(quill, version)` pair through the full load +
+`engine.quill(tree)` compile pipeline:
 
 ```bash
 npm install

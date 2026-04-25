@@ -21,16 +21,17 @@
     "node": ">=18"
   },
   "peerDependencies": {
-    "@quillmark/quiver": "0.2.0",
+    "@quillmark/quiver": "0.3.0",
     "@quillmark/wasm": "0.59.0"
   },
   "devDependencies": {
-    "@quillmark/quiver": "0.2.0",
-    "@quillmark/wasm": "0.59.0",
-    "vitest": "^4.0.18"
+    "@quillmark/quiver": "0.3.0",
+    "@quillmark/wasm": "0.59.0"
   },
   "scripts": {
-    "test": "vitest run"
+    "test": "node --test",
+    "release:patch": "npm version patch -m \"chore(release): %s\" && git push --follow-tags",
+    "release:minor": "npm version minor -m \"chore(release): %s\" && git push --follow-tags"
   },
   "keywords": [
     "quillmark",

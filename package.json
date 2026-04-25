@@ -21,15 +21,16 @@
     "node": ">=18"
   },
   "peerDependencies": {
-    "@quillmark/quiver": "0.1.1",
+    "@quillmark/quiver": "0.2.0",
     "@quillmark/wasm": "0.59.0"
   },
   "devDependencies": {
-    "@quillmark/quiver": "0.1.1",
-    "@quillmark/wasm": "0.59.0"
+    "@quillmark/quiver": "0.2.0",
+    "@quillmark/wasm": "0.59.0",
+    "vitest": "^4.0.18"
   },
   "scripts": {
-    "test": "node scripts/validate.mjs"
+    "test": "vitest run"
   },
   "keywords": [
     "quillmark",

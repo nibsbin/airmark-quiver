@@ -17,7 +17,7 @@ and aligned to the current Quillmark spec.
 ## Install
 
 ```bash
-npm install airmark-quiver @quillmark/quiver@0.1.1 @quillmark/wasm@0.59.0
+npm install airmark-quiver @quillmark/quiver@0.2.0 @quillmark/wasm@0.59.0
 ```
 
 ## Usage
@@ -72,6 +72,18 @@ quills/
       example.md
       assets/
       packages/
+```
+
+## Testing
+
+`quiver.test.js` at the repo root runs the
+[`@quillmark/quiver/testing`](https://www.npmjs.com/package/@quillmark/quiver)
+suite under [Vitest](https://vitest.dev/), validating each `(quill, version)`
+pair through the full load + `engine.quill(tree)` compile pipeline:
+
+```bash
+npm install
+npm test
 ```
 
 ## License

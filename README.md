@@ -17,7 +17,7 @@ and aligned to the current Quillmark spec.
 ## Install
 
 ```bash
-npm install @airmark/quiver @quillmark/quiver@0.2.0 @quillmark/wasm@0.59.0
+npm install @airmark/quiver @quillmark/quiver@0.4.0 @quillmark/wasm@0.59.0
 ```
 
 ## Usage
@@ -26,12 +26,10 @@ npm install @airmark/quiver @quillmark/quiver@0.2.0 @quillmark/wasm@0.59.0
 
 ```ts
 import { Quillmark, Document } from '@quillmark/wasm';
-import { QuiverRegistry } from '@quillmark/quiver/node';
 import { loadAirmarkQuiver } from '@airmark/quiver';
 
 const engine = new Quillmark();
 const quiver = await loadAirmarkQuiver();
-const registry = new QuiverRegistry({ engine, quivers: [quiver] });
 
 const doc = Document.fromMarkdown(`---
 QUILL: usaf_memo@0.2
@@ -43,8 +41,7 @@ signature_block: ["FIRST M. LAST, Rank, USAF", "Duty Title"]
 
 Body of the memo.`);
 
-const canonicalRef = await registry.resolve(doc.quillRef);
-const quill = await registry.getQuill(canonicalRef);
+const quill = await quiver.getQuill(doc.quillRef, { engine });
 const { artifacts } = quill.render(doc, { format: 'pdf' });
 ```
 
@@ -54,7 +51,7 @@ const { artifacts } = quill.render(doc, { format: 'pdf' });
 import { Quiver } from '@quillmark/quiver/node';
 import { QUIVER_DIR } from '@airmark/quiver';
 
-const quiver = await Quiver.fromSourceDir(QUIVER_DIR);
+const quiver = await Quiver.fromDir(QUIVER_DIR);
 ```
 
 ## Layout

@@ -24,5 +24,5 @@ export const QUILLS_DIR = path.join(__dirname, 'quills');
  */
 export async function loadAirmarkQuiver() {
   const { Quiver } = await import('@quillmark/quiver/node');
-  return Quiver.fromSourceDir(QUIVER_DIR);
+  return Quiver.fromDir(QUIVER_DIR);
 }

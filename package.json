@@ -21,11 +21,11 @@
     "node": ">=18"
   },
   "peerDependencies": {
-    "@quillmark/quiver": "0.3.0",
+    "@quillmark/quiver": "0.4.0",
     "@quillmark/wasm": "0.59.0"
   },
   "devDependencies": {
-    "@quillmark/quiver": "0.3.0",
+    "@quillmark/quiver": "0.4.0",
     "@quillmark/wasm": "0.59.0"
   },
   "scripts": {

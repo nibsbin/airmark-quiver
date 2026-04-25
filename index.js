@@ -18,7 +18,7 @@ export const QUILLS_DIR = path.join(__dirname, 'quills');
  * Convenience loader that resolves this Source Quiver through `@quillmark/quiver/node`.
  *
  * ```ts
- * import { loadAirmarkQuiver } from 'airmark-quiver';
+ * import { loadAirmarkQuiver } from '@airmark/quiver';
  * const quiver = await loadAirmarkQuiver();
  * ```
  */

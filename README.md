@@ -1,4 +1,4 @@
-# airmark-quiver
+# @airmark/quiver
 
 A [Quillmark](https://github.com/nibsbin/quillmark) Source Quiver of Air Force
 and DAF official-document Quills, sourced from
@@ -17,7 +17,7 @@ and aligned to the current Quillmark spec.
 ## Install
 
 ```bash
-npm install airmark-quiver @quillmark/quiver@0.2.0 @quillmark/wasm@0.59.0
+npm install @airmark/quiver @quillmark/quiver@0.2.0 @quillmark/wasm@0.59.0
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ npm install airmark-quiver @quillmark/quiver@0.2.0 @quillmark/wasm@0.59.0
 ```ts
 import { Quillmark, Document } from '@quillmark/wasm';
 import { QuiverRegistry } from '@quillmark/quiver/node';
-import { loadAirmarkQuiver } from 'airmark-quiver';
+import { loadAirmarkQuiver } from '@airmark/quiver';
 
 const engine = new Quillmark();
 const quiver = await loadAirmarkQuiver();
@@ -52,7 +52,7 @@ const { artifacts } = quill.render(doc, { format: 'pdf' });
 
 ```ts
 import { Quiver } from '@quillmark/quiver/node';
-import { QUIVER_DIR } from 'airmark-quiver';
+import { QUIVER_DIR } from '@airmark/quiver';
 
 const quiver = await Quiver.fromSourceDir(QUIVER_DIR);
 ```

@@ -1,16 +1,9 @@
 name: release
 
 on:
-  workflow_dispatch:
-    inputs:
-      bump:
-        description: Semver bump
-        type: choice
-        required: true
-        default: patch
-        options:
-          - patch
-          - minor
+  push:
+    tags:
+      - 'v*'
 
 concurrency:
   group: release
@@ -21,13 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     permissions:
-      contents: write
+      contents: read
       id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -44,27 +35,13 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Configure git
+      - name: Verify tag matches package version
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Bump version
-        id: bump
-        run: |
-          new_version=$(npm version "${{ inputs.bump }}" --no-git-tag-version)
-          echo "version=${new_version}" >> "$GITHUB_OUTPUT"
-
-      - name: Commit and tag
-        run: |
-          git add package.json package-lock.json
-          git commit -m "chore(release): ${{ steps.bump.outputs.version }}"
-          git tag "${{ steps.bump.outputs.version }}"
+          pkg_version="v$(node -p "require('./package.json').version")"
+          if [ "${GITHUB_REF_NAME}" != "${pkg_version}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match package.json version ${pkg_version}" >&2
+            exit 1
+          fi
 
       - name: Publish to npm (trusted publisher, with provenance)
         run: npm publish --provenance --access public
-
-      - name: Push commit and tag
-        run: |
-          git push origin HEAD:"${GITHUB_REF_NAME}"
-          git push origin "${{ steps.bump.outputs.version }}"

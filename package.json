@@ -30,8 +30,8 @@
   },
   "scripts": {
     "test": "node --test",
-    "release:patch": "gh workflow run release.yml -f bump=patch",
-    "release:minor": "gh workflow run release.yml -f bump=minor"
+    "release:patch": "npm version patch -m \"chore(release): %s\" && git push --follow-tags",
+    "release:minor": "npm version minor -m \"chore(release): %s\" && git push --follow-tags"
   },
   "keywords": [
     "quillmark",

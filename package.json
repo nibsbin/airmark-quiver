@@ -21,8 +21,8 @@
     "node": ">=18"
   },
   "peerDependencies": {
-    "@quillmark/quiver": "0.4.0",
-    "@quillmark/wasm": "0.59.0"
+    "@quillmark/quiver": ">=0.4.0 <0.5.0",
+    "@quillmark/wasm": ">=0.59.0 <0.60.0"
   },
   "devDependencies": {
     "@quillmark/quiver": "0.4.0",

@@ -29,7 +29,9 @@
     "@quillmark/wasm": "0.59.0"
   },
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "release:patch": "gh workflow run release.yml -f bump=patch",
+    "release:minor": "gh workflow run release.yml -f bump=minor"
   },
   "keywords": [
     "quillmark",

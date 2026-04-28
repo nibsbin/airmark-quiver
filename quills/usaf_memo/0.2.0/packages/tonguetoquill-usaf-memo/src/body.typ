@@ -117,18 +117,24 @@
       // A continuation is a non-first paragraph inside a list item (nest_level > 0).
       let is_continuation = nest_level > 0 and not is_first_par
 
-      PAR_BUFFER.update(pars => {
-        pars.push((
-          content: text([#p.body]),
-          nest_level: nest_level,
-          kind: if is_heading { "heading" } else if is_continuation { "continuation" } else { "par" },
-        ))
-        pars
-      })
+      // Skip empty paragraphs — these arise when the body content is blank (e.g. an
+      // indorsement card with no endorsement statement). Without this guard the
+      // parbreak() appended to every content block fires show par once with p.body == [],
+      // inserting a spurious blank line between the action line and the signature block.
+      if p.body != [] {
+        PAR_BUFFER.update(pars => {
+          pars.push((
+            content: text([#p.body]),
+            nest_level: nest_level,
+            kind: if is_heading { "heading" } else if is_continuation { "continuation" } else { "par" },
+          ))
+          pars
+        })
 
-      // After the first paragraph of a list item, mark subsequent ones as continuations
-      if nest_level > 0 and is_first_par {
-        ITEM_FIRST_PAR.update(false)
+        // After the first paragraph of a list item, mark subsequent ones as continuations
+        if nest_level > 0 and is_first_par {
+          ITEM_FIRST_PAR.update(false)
+        }
       }
 
       p

@@ -41,7 +41,7 @@
   }
 
 
-  let actual_date = if date == none { datetime.today() } else { date }
+  let actual_date = date
   let ind_from = first-or-value(from)
   let ind_for = to
 
@@ -67,7 +67,7 @@
         blank-line()
         grid(
           columns: (auto, 1fr),
-          ind_from, align(right)[#display-date(actual_date, memo-style: memo-style)],
+          ind_from, align(right)[#if actual_date != none { display-date(actual_date, memo-style: memo-style) }],
         )
 
         blank-line()
@@ -79,7 +79,7 @@
         blank-line()
         grid(
           columns: (auto, 1fr),
-          [#indorsement_label, #ind_from], align(right)[#display-date(actual_date, memo-style: memo-style)],
+          [#indorsement_label, #ind_from], align(right)[#if actual_date != none { display-date(actual_date, memo-style: memo-style) }],
         )
 
         blank-line()

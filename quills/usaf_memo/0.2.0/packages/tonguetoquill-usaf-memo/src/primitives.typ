@@ -158,8 +158,14 @@
       // We use (4.5in - margin) because Typst's pad() is relative to the text area, not page edge
       #pad(left: 4.5in - spacing.margin)[
         #text(hyphenate: false)[
-          #for line in signature-lines {
-            par(hanging-indent: 4 * 0.5em, line)
+          #for (i, line) in signature-lines.enumerate() {
+            if i < 2 {
+              par(hanging-indent: 4 * 0.5em, line)
+            } else {
+              // T&Q p.179: 3rd line and beyond indent to align under the
+              // 3rd character of line 2 (= 2 character widths from block left)
+              pad(left: 4 * 0.5em)[#par(hanging-indent: 4 * 0.5em, line)]
+            }
           }
         ]
       ]

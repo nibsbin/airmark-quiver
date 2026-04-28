@@ -32,6 +32,7 @@
 
   // Optional footer tag line
   ..if "tag_line" in data { (footer_tag_line: data.tag_line) },
+  ..if "tag_line_first_page_only" in data { (footer_tag_line_first_page_only: data.tag_line_first_page_only) },
 
   // Optional classification level
   ..if "classification" in data { (classification_level: data.classification) },

@@ -99,6 +99,15 @@ main:
         group: Letterhead
       description: Organizational motto at the bottom of the page.
 
+    tag_line_first_page_only:
+      title: Show tag line on first page only
+      type: boolean
+      default: false
+      ui:
+        group: Letterhead
+        compact: true
+      description: When enabled, the tag line appears only on the first page. By default, the tag line appears on all pages.
+
     references:
       title: References for the memo
       type: array

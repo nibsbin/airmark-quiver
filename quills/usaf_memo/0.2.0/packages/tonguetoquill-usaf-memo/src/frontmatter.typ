@@ -25,6 +25,7 @@
   memo_for_cols: 3,
   classification_level: none,
   footer_tag_line: none,
+  footer_tag_line_first_page_only: false,
   auto_numbering: true,
   memo_style: "usaf",
   it,
@@ -84,13 +85,15 @@
       )
 
       if not falsey(footer_tag_line) {
-        place(
-          bottom + center,
-          dy: -0.625in,
-          align(center)[
-            #text(fill: LETTERHEAD_COLOR, font: "cinzel", size: 15pt)[#footer_tag_line]
-          ],
-        )
+        context if not footer_tag_line_first_page_only or counter(page).get().first() == 1 {
+          place(
+            bottom + center,
+            dy: -0.625in,
+            align(center)[
+              #text(fill: LETTERHEAD_COLOR, font: "cinzel", size: 15pt)[#footer_tag_line]
+            ],
+          )
+        }
       }
     },
   )

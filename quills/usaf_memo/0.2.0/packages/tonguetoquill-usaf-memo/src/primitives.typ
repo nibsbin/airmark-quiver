@@ -147,11 +147,9 @@
 
 #let render-signature-block(signature-lines, signature-blank-lines: 4) = {
   signature-lines = ensure-array(signature-lines)
-  // AFH 33-337: "The signature block is never on a page by itself"
-  // Note: Perfect enforcement isn't feasible without over-engineering
-  // We use weak: false spacing and breakable: false to discourage orphaning
-  // AFH 33-337: "fifth line below" = 4 blank lines between text and signature block
-  blank-lines(signature-blank-lines, weak: false)
+  // AFH 33-337: "fifth line below" = 4 blank lines between text and signature block.
+  // breakable: false discourages orphaning the signature block onto a page by itself.
+  blank-lines(signature-blank-lines)
   block(breakable: false)[
     #align(left)[
       // AFH 33-337: "4.5 inches from the left edge of the page"

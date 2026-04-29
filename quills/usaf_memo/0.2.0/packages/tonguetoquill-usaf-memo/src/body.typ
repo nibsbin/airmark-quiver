@@ -214,6 +214,7 @@
     }
 
     let i = 0
+    let any_emitted = false
     for item in items {
       i += 1
       let kind = item.kind
@@ -306,9 +307,16 @@
         }
       }
 
-      // If this is the final item, apply AFH 33-337 §11 rule:
-      // "Avoid dividing a paragraph of less than four lines between two pages"
-      blank-line()
+      // Blank line between paragraphs. The header→body gap (i.e. before
+      // the first emitted paragraph) is the caller's responsibility —
+      // emitting it here would put the v() inside a nested
+      // `context { for … }` block, where it does not combine with the
+      // preceding header section's block-spacing the same way as a
+      // top-level blank-line() call.
+      // AFH 33-337 §11 rule applied below: "Avoid dividing a paragraph of
+      // less than four lines between two pages"
+      if any_emitted { blank-line() }
+      any_emitted = true
       if i == total_count {
         let available_width = page.width - spacing.margin * 2
 

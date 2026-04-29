@@ -130,7 +130,10 @@
   render-subject-section(subject)
   render-references-section(references)
 
-  // body.typ emits blank-line() before each paragraph (including the first),
-  // which provides the AFH 33-337 "second line below" gap from the header.
+  // AFH 33-337: "Begin text on second line below subject/references".
+  // Emitted here (not inside body.typ) so the v() lands at the same lexical
+  // level as the preceding header sections and combines correctly with their
+  // block spacing.
+  blank-line()
   it
 }

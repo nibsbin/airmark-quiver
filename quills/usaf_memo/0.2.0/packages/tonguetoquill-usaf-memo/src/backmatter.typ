@@ -12,13 +12,18 @@
 #let backmatter(
   signature_block: none,
   signature_blank_lines: 4,
+  signature_authority_line: none,
   attachments: none,
   cc: none,
   distribution: none,
   leading_pagebreak: false,
 ) = {
   // Render backmatter sections without paragraph numbering
-  render-signature-block(signature_block, signature-blank-lines: signature_blank_lines)
+  render-signature-block(
+    signature_block,
+    authority-line: signature_authority_line,
+    signature-blank-lines: signature_blank_lines,
+  )
   render-backmatter-sections(
     attachments: attachments,
     cc: cc,

@@ -125,15 +125,18 @@
   ))
 
   render-date-section(actual_date, memo-style: memo_style)
-  render-for-section(memo_for, memo_for_cols)
-  render-from-section(memo_from)
-  render-subject-section(subject)
-  render-references-section(references)
+  // Wrap header sections in a context block, mirroring indorsement.typ. The
+  // top-level `blank-line()` after the context lands at the same lexical
+  // level as indorsement's line-92 header→body gap, producing identical
+  // block-spacing collapse against the body that follows.
+  context {
+    render-for-section(memo_for, memo_for_cols)
+    render-from-section(memo_from)
+    render-subject-section(subject)
+    render-references-section(references)
+  }
 
   // AFH 33-337: "Begin text on second line below subject/references".
-  // Emitted here (not inside body.typ) so the v() lands at the same lexical
-  // level as the preceding header sections and combines correctly with their
-  // block spacing.
   blank-line()
   it
 }

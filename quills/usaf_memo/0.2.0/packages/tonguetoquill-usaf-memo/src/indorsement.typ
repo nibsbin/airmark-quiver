@@ -98,11 +98,11 @@
   }
 
   context {
-    let memo-style = {
-      let items = query(metadata)
-      if items.len() > 0 { items.last().value.at("memo_style", default: "usaf") } else { "usaf" }
-    }
-    render-body(content, memo-style: memo-style)
+    let items = query(metadata)
+    let config = if items.len() > 0 { items.last().value } else { (:) }
+    let memo-style = config.at("memo_style", default: "usaf")
+    let auto-numbering = config.at("auto_numbering", default: true)
+    render-body(content, auto-numbering: auto-numbering, memo-style: memo-style)
   }
 
   render-signature-block(signature_block, signature-blank-lines: signature_blank_lines)

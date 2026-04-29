@@ -33,8 +33,8 @@
   // Optional footer tag line
   ..if "tag_line" in data { (footer_tag_line: data.tag_line) },
 
-  // Optional classification level
-  ..if "classification" in data { (classification_level: data.classification) },
+  // Optional classification level ("None" sentinel = no marking)
+  ..if "classification" in data and data.classification != "None" { (classification_level: data.classification) },
 
   // USAF vs DAF memorandum style (date format, body indentation)
   memo_style: data.at("memo_style", default: "usaf"),

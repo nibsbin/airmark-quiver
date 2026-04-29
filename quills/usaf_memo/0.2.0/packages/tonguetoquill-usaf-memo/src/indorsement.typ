@@ -101,11 +101,12 @@
     let items = query(metadata)
     let config = if items.len() > 0 { items.last().value } else { (:) }
     let memo-style = config.at("memo_style", default: "usaf")
-    // render-body detects indorsement context automatically by reading
-    // `counters.indorsement` (already stepped above), so AFH §2's
-    // single-paragraph carve-out is opted out of without an extra
-    // parameter at this call site.
+    // Flag the indorsement body so render-body knows to skip AFH §2's
+    // single-paragraph carve-out, then clear the flag once we're past
+    // render-body so any subsequent state observers see the default.
+    IN_INDORSEMENT.update(true)
     render-body(content, memo-style: memo-style)
+    IN_INDORSEMENT.update(false)
   }
 
   render-signature-block(signature_block, signature-blank-lines: signature_blank_lines)

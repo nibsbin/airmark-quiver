@@ -95,9 +95,9 @@
 // - "usaf": multiple top-level paragraphs numbered 1., 2., …; a single
 //   top-level paragraph in the main memo body renders flush left without
 //   a number per AFH §2. Indorsements automatically opt out of the §2
-//   carve-out — see the `counters.indorsement.get()` check in the second
-//   pass below — so their first paragraph is numbered even when it's the
-//   only one.
+//   carve-out — indorsement.typ flips the IN_INDORSEMENT state around
+//   its render-body call, which the second pass below reads — so their
+//   first paragraph is numbered even when it's the only one.
 // - "daf":  top-level paragraphs unnumbered with first-line indent; nested
 //   items numbered.
 #let render-body(content, memo-style: "usaf") = {
@@ -211,10 +211,10 @@
     let heading_buffer = none
     let par_count = PAR_BUFFER.get().filter(item => item.kind == "par").len()
     let items = PAR_BUFFER.get()
-    // Indorsements step `counters.indorsement` before invoking render-body,
-    // so a non-zero value here means we're rendering an indorsement body
-    // and the AFH §2 single-paragraph carve-out should not apply.
-    let in_indorsement = counters.indorsement.get().at(0, default: 0) > 0
+    // indorsement.typ flips IN_INDORSEMENT around its render-body call so
+    // we can detect indorsement context here and skip AFH §2's
+    // single-paragraph carve-out.
+    let in_indorsement = IN_INDORSEMENT.get()
     let total_count = items.len()
 
     // Track paragraph numbers per level manually to avoid nested-context

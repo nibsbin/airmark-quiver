@@ -23,8 +23,8 @@
 ///
 /// Indorsements automatically opt out of the §2 single-paragraph
 /// carve-out — `render-body` detects indorsement context by reading the
-/// `counters.indorsement` value (which `indorsement.typ` steps before
-/// rendering the body).
+/// `IN_INDORSEMENT` state, which `indorsement.typ` flips around its
+/// render-body call.
 ///
 /// - content (content): The body content to render
 /// -> content

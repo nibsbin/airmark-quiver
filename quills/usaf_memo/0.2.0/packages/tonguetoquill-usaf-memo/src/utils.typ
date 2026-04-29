@@ -20,17 +20,24 @@
 
 /// Creates vertical spacing equivalent to multiple blank lines.
 ///
-/// Paragraph spacing is normalized to `spacing.line` (one leading stride)
-/// in `frontmatter`, so adjacent paragraphs sit one stride apart — the same
-/// distance as wrapped lines within a paragraph. Each blank line therefore
-/// adds one extra stride on top of the natural inter-paragraph gap, making
-/// a blank line occupy exactly the space of a wrapped line.
+/// Adds `count` wrapped-line strides on top of the natural inter-paragraph
+/// gap, so a blank line occupies exactly the same vertical space as a line
+/// produced by natural paragraph wrapping. The stride is measured from
+/// `LINE_STRIDE` (cached in `frontmatter`) and falls back to an inline
+/// measurement when the cache is unset.
 ///
 /// - count (int): Number of blank lines to create
 /// -> content
 #let blank-lines(count) = {
   if count <= 0 { return }
-  v(spacing.line * count)
+  context {
+    let stride = LINE_STRIDE.get()
+    if stride == none {
+      let one-line = measure(par(spacing: 0pt)[x]).height
+      stride = measure(par(spacing: 0pt)[x#linebreak()x]).height - one-line
+    }
+    v(stride * count)
+  }
 }
 
 /// Creates vertical spacing equivalent to one blank line.

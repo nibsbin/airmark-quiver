@@ -56,9 +56,6 @@
   // Signature block
   signature_block: data.signature_block,
 
-  // Optional authority line
-  ..if "signature_authority_line" in data { (signature_authority_line: data.signature_authority_line) },
-
   // Optional cc
   ..if "cc" in data { (cc: data.cc) },
 
@@ -76,7 +73,6 @@
       from: card.at("from", default: ""),
       to: card.at("for", default: ""),
       signature_block: card.signature_block,
-      ..if "signature_authority_line" in card { (signature_authority_line: card.signature_authority_line) },
       ..if "attachments" in card { (attachments: card.attachments) },
       ..if "cc" in card { (cc: card.cc) },
       format: card.at("format", default: "standard"),

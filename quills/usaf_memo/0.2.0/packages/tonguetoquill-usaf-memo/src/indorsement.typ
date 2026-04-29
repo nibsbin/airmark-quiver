@@ -18,7 +18,6 @@
   to: none,
   signature_block: none,
   signature_blank_lines: 4,
-  signature_authority_line: none,
   attachments: none,
   cc: none,
   date: none,
@@ -106,11 +105,7 @@
     render-body(content, memo-style: memo-style)
   }
 
-  render-signature-block(
-    signature_block,
-    authority-line: signature_authority_line,
-    signature-blank-lines: signature_blank_lines,
-  )
+  render-signature-block(signature_block, signature-blank-lines: signature_blank_lines)
 
   render-backmatter-sections(attachments: attachments, cc: cc)
 }

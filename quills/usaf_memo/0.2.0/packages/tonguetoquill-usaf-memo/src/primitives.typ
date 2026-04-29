@@ -145,46 +145,28 @@
 // the last line of text and 4.5 inches from the left edge of the page"
 // AFH 33-337 "Do not place the signature element on a continuation page by itself"
 
-// Renders the signature element lines at the 4.5-inch column position.
-// Used by render-signature-block for both plain and authority-line variants.
-#let render-signature-element(signature-lines) = {
-  pad(left: 4.5in - spacing.margin)[
-    #text(hyphenate: false)[
-      #for line in signature-lines {
-        // AFH 33-337: "indent the next line to begin under the third character
-        // of the line above" — 2-character indent ≈ 1em in Times New Roman 12pt
-        par(hanging-indent: 1em, line)
-      }
-    ]
-  ]
-}
-
-#let render-signature-block(signature-lines, authority-line: none, signature-blank-lines: 4) = {
+#let render-signature-block(signature-lines, signature-blank-lines: 4) = {
   signature-lines = ensure-array(signature-lines)
   // AFH 33-337: "The signature block is never on a page by itself"
   // Note: Perfect enforcement isn't feasible without over-engineering
   // We use weak: false spacing and breakable: false to discourage orphaning
   // AFH 33-337: "fifth line below" = 4 blank lines between text and signature block
   blank-lines(signature-blank-lines, weak: false)
-  if authority-line != none {
-    // AFH 33-337: "If the authority line is used, type the signature element
-    // five lines below the authority line"
-    block(breakable: false)[
-      #align(left)[
-        #pad(left: 4.5in - spacing.margin)[
-          #text(hyphenate: false)[#authority-line]
+  block(breakable: false)[
+    #align(left)[
+      // AFH 33-337: "4.5 inches from the left edge of the page"
+      // We use (4.5in - margin) because Typst's pad() is relative to the text area, not page edge
+      #pad(left: 4.5in - spacing.margin)[
+        #text(hyphenate: false)[
+          #for line in signature-lines {
+            // AFH 33-337: "indent the next line to begin under the third character
+            // of the line above" — 2-character indent ≈ 1em in Times New Roman 12pt
+            par(hanging-indent: 1em, line)
+          }
         ]
-        #blank-lines(4, weak: false)
-        #render-signature-element(signature-lines)
       ]
     ]
-  } else {
-    block(breakable: false)[
-      #align(left)[
-        #render-signature-element(signature-lines)
-      ]
-    ]
-  }
+  ]
 }
 
 // =============================================================================

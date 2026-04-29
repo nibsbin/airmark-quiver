@@ -27,28 +27,22 @@
 /// from creeping in on either side.
 ///
 /// - count (int): Number of blank lines to create
-/// - weak (bool): Accepted for signature compatibility; ghost lines do not
-///   collapse at page boundaries.
 /// -> content
-#let blank-lines(count, weak: true) = {
-  if count <= 0 {
-    v(0em, weak: weak)
-  } else {
-    block(spacing: 0pt, {
-      for i in range(count) {
-        if i > 0 { linebreak() }
-        hide[x]
-      }
-    })
-  }
+#let blank-lines(count) = {
+  if count <= 0 { return }
+  block(spacing: 0pt, {
+    for i in range(count) {
+      if i > 0 { linebreak() }
+      hide[x]
+    }
+  })
 }
 
 /// Creates vertical spacing equivalent to one blank line.
 /// Convenience function for single line spacing.
 ///
-/// - weak (bool): Accepted for signature compatibility; see `blank-lines`.
 /// -> content
-#let blank-line(weak: true) = blank-lines(1, weak: weak)
+#let blank-line() = blank-lines(1)
 
 // =============================================================================
 // GENERAL UTILITY FUNCTIONS

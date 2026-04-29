@@ -14,44 +14,39 @@
 
 #import "config.typ": CLASSIFICATION_COLORS, counters, paragraph-config, spacing
 
-// Shared measured line-stride cache used by blank-line spacing and body
-// line-count heuristics. Value is a `length` set once in `frontmatter`.
+// Shared measured line-stride cache used by body line-count heuristics.
+// Value is a `length` set once in `frontmatter`.
 #let LINE_STRIDE = state("LINE_STRIDE")
-// Shared blank-line step cache used by structural spacing.
-#let BLANK_LINE_STEP = state("BLANK_LINE_STEP")
 
 /// Creates vertical spacing equivalent to multiple blank lines.
 ///
-/// Each step matches one row of the body paragraph line grid.
+/// Emits a block of invisible ("ghost") wrapped lines so each blank line
+/// occupies exactly one wrapped-line of leading — the same height the layout
+/// engine would produce if body text wrapped naturally onto the next line.
+/// The surrounding `block(spacing: 0pt)` prevents extra paragraph spacing
+/// from creeping in on either side.
 ///
 /// - count (int): Number of blank lines to create
-/// - weak (bool): Whether spacing can be compressed at page breaks
+/// - weak (bool): Accepted for signature compatibility; ghost lines do not
+///   collapse at page boundaries.
 /// -> content
 #let blank-lines(count, weak: true) = {
-  if count == 0 {
+  if count <= 0 {
     v(0em, weak: weak)
   } else {
-    context {
-      let measured-stride = {
-        let one-line = measure(par(spacing: 0pt)[x]).height
-        measure(par(spacing: 0pt)[x#linebreak()x]).height - one-line
+    block(spacing: 0pt, {
+      for i in range(count) {
+        if i > 0 { linebreak() }
+        hide[x]
       }
-      // Scale legacy visual step with current font size:
-      // 19.05pt was tuned for 12pt body text.
-      let em-size = measure(box(width: 1em)[]).width
-      let legacy-scaled = spacing.vertical * (em-size / 12pt)
-      let fallback-step = calc.max(measured-stride, legacy-scaled)
-      let cached-step = BLANK_LINE_STEP.get()
-      let step = if cached-step != none { cached-step } else { fallback-step }
-      v(step * count, weak: weak)
-    }
+    })
   }
 }
 
 /// Creates vertical spacing equivalent to one blank line.
 /// Convenience function for single line spacing.
 ///
-/// - weak (bool): Whether spacing can be compressed at page breaks
+/// - weak (bool): Accepted for signature compatibility; see `blank-lines`.
 /// -> content
 #let blank-line(weak: true) = blank-lines(1, weak: weak)
 

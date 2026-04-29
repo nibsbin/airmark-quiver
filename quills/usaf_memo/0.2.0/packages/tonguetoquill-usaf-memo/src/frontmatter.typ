@@ -107,14 +107,11 @@
   // Since we have a 1-inch top margin, we need (1.75in - margin) vertical space
   v(1.75in - spacing.margin)
 
-  // Measure and cache body line stride once for downstream spacing logic.
+  // Measure and cache body line stride once for body line-count heuristics.
   context {
     let one-line = measure(par(spacing: 0pt)[x]).height
     let line-stride = measure(par(spacing: 0pt)[x#linebreak()x]).height - one-line
-    let em-size = measure(box(width: 1em)[]).width
-    let legacy-scaled = spacing.vertical * (em-size / 12pt)
     LINE_STRIDE.update(line-stride)
-    BLANK_LINE_STEP.update(calc.max(line-stride, legacy-scaled))
   }
 
   metadata((

@@ -14,11 +14,15 @@
 /// - "A single paragraph is not numbered" (§2)
 /// - First paragraph flush left, never indented
 ///
-/// Numbering behavior is determined entirely by `memo_style`:
-/// - `"usaf"`: AFH 33-337 §2 — multiple top-level paragraphs are numbered
-///   `1.`, `2.`, …; a lone paragraph renders flush left without a number.
-/// - `"daf"`: top-level paragraphs are unnumbered with a fixed first-line
-///   indent; nested items are numbered.
+/// Numbering behavior is determined by `memo_style`:
+/// - `"usaf"`: AFH 33-337 §2 — multiple top-level paragraphs numbered
+///   `1.`, `2.`, …; a lone top-level paragraph renders flush left without
+///   a number.
+/// - `"daf"`: top-level paragraphs unnumbered with a fixed first-line
+///   indent; nested items numbered.
+///
+/// Indorsements use `render-body` directly with `number-single: true` to
+/// override the §2 single-paragraph carve-out for their first paragraph.
 ///
 /// - content (content): The body content to render
 /// -> content

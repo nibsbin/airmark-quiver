@@ -91,12 +91,17 @@
 // - First paragraph flush left, never indented
 // - Indent sub-paragraphs to align with first character of parent paragraph text
 //
-// Numbering behavior is fully determined by `memo-style`:
-// - "usaf": AFH 33-337 §2 — multiple top-level paragraphs numbered, single
-//   paragraph rendered flush left without a number.
+// Numbering behavior is determined by `memo-style` plus the `number-single`
+// override:
+// - "usaf": multiple top-level paragraphs numbered 1., 2., …; a single
+//   top-level paragraph renders flush left without a number per AFH §2 —
+//   unless `number-single: true`, which forces the first paragraph to be
+//   numbered. Indorsements use that override since they're a separate
+//   piece of correspondence and conventionally number their first
+//   paragraph even when there's only one.
 // - "daf":  top-level paragraphs unnumbered with first-line indent; nested
-//   items numbered.
-#let render-body(content, memo-style: "usaf") = {
+//   items numbered. `number-single` has no effect on DAF.
+#let render-body(content, memo-style: "usaf", number-single: false) = {
   let PAR_BUFFER = state("PAR_BUFFER")
   PAR_BUFFER.update(())
   let NEST_DOWN = counter("NEST_DOWN")
@@ -205,7 +210,6 @@
   //   item.kind       — "par", "heading", "table", or "continuation"
   context {
     let heading_buffer = none
-    // Only top-level paragraphs count for AFH 33-337 §2 numbering purposes
     let par_count = PAR_BUFFER.get().filter(item => item.kind == "par").len()
     let items = PAR_BUFFER.get()
     let total_count = items.len()
@@ -277,8 +281,11 @@
             level-counts = reset-levels-from(level-counts, 0, max-levels)
             [#h(daf-paragraph.top-first-line-indent)#item_content]
           }
-        } else if par_count > 1 {
-          // USAF style, AFH 33-337 §2: number multiple top-level paragraphs.
+        } else if par_count > 1 or number-single {
+          // USAF style: number top-level paragraphs hierarchically.
+          // Per AFH 33-337 §2 a lone paragraph in the main memo stays
+          // flush left, but indorsements pass number-single: true so
+          // their first paragraph is numbered even when it's the only one.
           let par = format-par(item_content, nest_level, level-counts, indent-fn)
           level-counts.insert(str(nest_level), level-counts.at(str(nest_level)) + 1)
           level-counts = reset-levels-from(level-counts, nest_level + 1, max-levels)

@@ -20,22 +20,17 @@
 
 /// Creates vertical spacing equivalent to multiple blank lines.
 ///
-/// Emits a block of invisible ("ghost") wrapped lines so each blank line
-/// occupies exactly one wrapped-line of leading — the same height the layout
-/// engine would produce if body text wrapped naturally onto the next line.
-/// The surrounding `block(spacing: 0pt)` prevents extra paragraph spacing
-/// from creeping in on either side.
+/// Paragraph spacing is normalized to `spacing.line` (one leading stride)
+/// in `frontmatter`, so adjacent paragraphs sit one stride apart — the same
+/// distance as wrapped lines within a paragraph. Each blank line therefore
+/// adds one extra stride on top of the natural inter-paragraph gap, making
+/// a blank line occupy exactly the space of a wrapped line.
 ///
 /// - count (int): Number of blank lines to create
 /// -> content
 #let blank-lines(count) = {
   if count <= 0 { return }
-  block(spacing: 0pt, {
-    for i in range(count) {
-      if i > 0 { linebreak() }
-      hide[x]
-    }
-  })
+  v(spacing.line * count)
 }
 
 /// Creates vertical spacing equivalent to one blank line.

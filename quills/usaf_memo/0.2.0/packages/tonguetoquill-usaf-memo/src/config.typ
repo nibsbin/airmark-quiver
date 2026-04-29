@@ -53,11 +53,6 @@
   indorsement: counter("indorsement"),
 )
 
-// Set to `true` while an indorsement body is being rendered. body.typ reads
-// this to decide whether AFH §2's single-paragraph carve-out applies; the
-// rule applies to main memo bodies but not to indorsements.
-#let IN_INDORSEMENT = state("IN_INDORSEMENT", false)
-
 // =============================================================================
 // CLASSIFICATION COLORS
 // =============================================================================

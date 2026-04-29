@@ -11,20 +11,16 @@
 /// - Begin text on second line below subject/references
 /// - Single-space text, double-space between paragraphs
 /// - Number and letter each paragraph/subparagraph
-/// - "A single paragraph is not numbered" (§2)
 /// - First paragraph flush left, never indented
 ///
-/// Numbering behavior is determined by `memo_style`:
-/// - `"usaf"`: AFH 33-337 §2 — multiple top-level paragraphs numbered
-///   `1.`, `2.`, …; a lone top-level paragraph renders flush left without
-///   a number.
+/// Numbering behavior is determined entirely by `memo_style`:
+/// - `"usaf"`: every top-level paragraph numbered `1.`, `2.`, …; nested
+///   items numbered hierarchically.
 /// - `"daf"`: top-level paragraphs unnumbered with a fixed first-line
 ///   indent; nested items numbered.
 ///
-/// Indorsements automatically opt out of the §2 single-paragraph
-/// carve-out — `render-body` detects indorsement context by reading the
-/// `IN_INDORSEMENT` state, which `indorsement.typ` flips around its
-/// render-body call.
+/// AFH §2's "single paragraph is not numbered" carve-out is intentionally
+/// not implemented — see `body.typ` for the rationale.
 ///
 /// - content (content): The body content to render
 /// -> content

@@ -87,19 +87,22 @@
 // AFH 33-337 "The Text of the Official Memorandum" §1-12 specifies:
 // - Single-space text, double-space between paragraphs
 // - Number and letter each paragraph and subparagraph
-// - "A single paragraph is not numbered" (§2)
 // - First paragraph flush left, never indented
 // - Indent sub-paragraphs to align with first character of parent paragraph text
 //
-// Numbering behavior is determined by `memo-style`:
-// - "usaf": multiple top-level paragraphs numbered 1., 2., …; a single
-//   top-level paragraph in the main memo body renders flush left without
-//   a number per AFH §2. Indorsements automatically opt out of the §2
-//   carve-out — indorsement.typ flips the IN_INDORSEMENT state around
-//   its render-body call, which the second pass below reads — so their
-//   first paragraph is numbered even when it's the only one.
+// Numbering behavior is determined entirely by `memo-style`:
+// - "usaf": every top-level paragraph numbered 1., 2., …; nested items
+//   numbered hierarchically.
 // - "daf":  top-level paragraphs unnumbered with first-line indent; nested
 //   items numbered.
+//
+// Note on AFH §2: AFH 33-337 §2 has a "single paragraph is not numbered"
+// carve-out. We deliberately don't implement it — distinguishing
+// "single-paragraph main memo" from every other body required runtime
+// detection of which caller invoked render-body, and the resulting
+// machinery (counter snooping / state flags / threaded parameters) cost
+// more than the rule earns. Single-paragraph official memos are rare and
+// a leading "1." is harmless when one appears.
 #let render-body(content, memo-style: "usaf") = {
   let PAR_BUFFER = state("PAR_BUFFER")
   PAR_BUFFER.update(())
@@ -209,12 +212,7 @@
   //   item.kind       — "par", "heading", "table", or "continuation"
   context {
     let heading_buffer = none
-    let par_count = PAR_BUFFER.get().filter(item => item.kind == "par").len()
     let items = PAR_BUFFER.get()
-    // indorsement.typ flips IN_INDORSEMENT around its render-body call so
-    // we can detect indorsement context here and skip AFH §2's
-    // single-paragraph carve-out.
-    let in_indorsement = IN_INDORSEMENT.get()
     let total_count = items.len()
 
     // Track paragraph numbers per level manually to avoid nested-context
@@ -284,18 +282,12 @@
             level-counts = reset-levels-from(level-counts, 0, max-levels)
             [#h(daf-paragraph.top-first-line-indent)#item_content]
           }
-        } else if par_count > 1 or in_indorsement {
-          // USAF style: number top-level paragraphs hierarchically. Per AFH
-          // 33-337 §2 a lone paragraph in the main memo stays flush left,
-          // but inside an indorsement we always number — see in_indorsement
-          // above.
+        } else {
+          // USAF style: number every top-level paragraph hierarchically.
           let par = format-par(item_content, nest_level, level-counts, indent-fn)
           level-counts.insert(str(nest_level), level-counts.at(str(nest_level)) + 1)
           level-counts = reset-levels-from(level-counts, nest_level + 1, max-levels)
           par
-        } else {
-          // AFH 33-337 §2: "A single paragraph is not numbered".
-          item_content
         }
       }
 

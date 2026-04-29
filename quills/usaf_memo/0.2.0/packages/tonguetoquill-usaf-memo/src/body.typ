@@ -90,7 +90,7 @@
 // - "A single paragraph is not numbered" (§2)
 // - First paragraph flush left, never indented
 // - Indent sub-paragraphs to align with first character of parent paragraph text
-#let render-body(content, auto-numbering: true, memo-style: "usaf") = {
+#let render-body(content, memo-style: "usaf") = {
   let PAR_BUFFER = state("PAR_BUFFER")
   PAR_BUFFER.update(())
   let NEST_DOWN = counter("NEST_DOWN")
@@ -254,18 +254,10 @@
           // Continuation block within a multi-block list item:
           // indent to align with preceding numbered paragraph's text, no new number.
           // level-counts still holds the value of the preceding numbered paragraph.
-          if memo-style == "daf" {
-            if nest_level > 0 {
-              format-par(item_content, nest_level, level-counts, indent-fn, continuation: true)
-            } else {
-              item_content
-            }
-          } else if auto-numbering {
-            format-par(item_content, nest_level, level-counts, indent-fn, continuation: true)
-          } else if nest_level > 0 {
-            format-par(item_content, nest_level - 1, level-counts, indent-fn, continuation: true)
-          } else {
+          if memo-style == "daf" and nest_level == 0 {
             item_content
+          } else {
+            format-par(item_content, nest_level, level-counts, indent-fn, continuation: true)
           }
         } else if memo-style == "daf" {
           if nest_level > 0 {
@@ -279,31 +271,15 @@
             level-counts = reset-levels-from(level-counts, 0, max-levels)
             [#h(daf-paragraph.top-first-line-indent)#item_content]
           }
-        } else if auto-numbering {
-          if par_count > 1 {
-            // Apply paragraph numbering per AFH 33-337 §2
-            let par = format-par(item_content, nest_level, level-counts, indent-fn)
-            level-counts.insert(str(nest_level), level-counts.at(str(nest_level)) + 1)
-            level-counts = reset-levels-from(level-counts, nest_level + 1, max-levels)
-            par
-          } else {
-            // AFH 33-337 §2: "A single paragraph is not numbered"
-            item_content
-          }
+        } else if par_count > 1 {
+          // Apply paragraph numbering per AFH 33-337 §2
+          let par = format-par(item_content, nest_level, level-counts, indent-fn)
+          level-counts.insert(str(nest_level), level-counts.at(str(nest_level)) + 1)
+          level-counts = reset-levels-from(level-counts, nest_level + 1, max-levels)
+          par
         } else {
-          // Unnumbered mode: only explicitly nested items (enum/list) get numbered
-          if nest_level > 0 {
-            let effective_level = nest_level - 1
-            let par = format-par(item_content, effective_level, level-counts, indent-fn)
-            level-counts.insert(str(effective_level), level-counts.at(str(effective_level)) + 1)
-            level-counts = reset-levels-from(level-counts, effective_level + 1, max-levels)
-            par
-          } else {
-            // Base-level paragraphs are flush left with no numbering.
-            // Reset all child level counters so subsequent list items restart at 1.
-            level-counts = reset-levels-from(level-counts, 0, max-levels)
-            item_content
-          }
+          // AFH 33-337 §2: "A single paragraph is not numbered"
+          item_content
         }
       }
 

@@ -17,7 +17,7 @@ and aligned to the current Quillmark spec.
 ## Install
 
 ```bash
-npm install @airmark/quiver @quillmark/quiver@0.5.0 @quillmark/wasm@0.60.0
+npm install @airmark/quiver @quillmark/quiver@0.5.0 @quillmark/wasm@0.66.2
 ```
 
 ## Usage

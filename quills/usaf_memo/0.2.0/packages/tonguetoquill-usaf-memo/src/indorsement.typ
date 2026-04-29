@@ -101,10 +101,11 @@
     let items = query(metadata)
     let config = if items.len() > 0 { items.last().value } else { (:) }
     let memo-style = config.at("memo_style", default: "usaf")
-    // Indorsements always number their first paragraph, even when it's the
-    // only one — AFH §2's single-paragraph carve-out applies to the main
-    // memo body, not to indorsements.
-    render-body(content, memo-style: memo-style, number-single: true)
+    // render-body detects indorsement context automatically by reading
+    // `counters.indorsement` (already stepped above), so AFH §2's
+    // single-paragraph carve-out is opted out of without an extra
+    // parameter at this call site.
+    render-body(content, memo-style: memo-style)
   }
 
   render-signature-block(signature_block, signature-blank-lines: signature_blank_lines)

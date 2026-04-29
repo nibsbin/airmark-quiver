@@ -21,8 +21,10 @@
 /// - `"daf"`: top-level paragraphs unnumbered with a fixed first-line
 ///   indent; nested items numbered.
 ///
-/// Indorsements use `render-body` directly with `number-single: true` to
-/// override the §2 single-paragraph carve-out for their first paragraph.
+/// Indorsements automatically opt out of the §2 single-paragraph
+/// carve-out — `render-body` detects indorsement context by reading the
+/// `counters.indorsement` value (which `indorsement.typ` steps before
+/// rendering the body).
 ///
 /// - content (content): The body content to render
 /// -> content

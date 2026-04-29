@@ -188,6 +188,12 @@ card_types:
     title: Routing indorsement
     description: Chain of routing endorsements. Each endorsement block adds an official response or forwarding action to the original memo.
     fields:
+      BODY:
+        title: Indorsement body text
+        type: markdown
+        ui:
+          group: Body
+        description: Markdown body of the indorsement. Multiple paragraphs are auto-numbered per AFH 33-337.
       from:
         title: From office/symbol
         type: string

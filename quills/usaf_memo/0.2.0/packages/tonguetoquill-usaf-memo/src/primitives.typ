@@ -145,12 +145,13 @@
 // the last line of text and 4.5 inches from the left edge of the page"
 // AFH 33-337 "Do not place the signature element on a continuation page by itself"
 
-#let render-signature-block(signature-lines, signature-blank-lines: 4) = {
+#let render-signature-block(signature-lines, signature-blank-lines: 3) = {
   signature-lines = ensure-array(signature-lines)
   // AFH 33-337: "The signature block is never on a page by itself"
   // Note: Perfect enforcement isn't feasible without over-engineering
   // We use weak: false spacing and breakable: false to discourage orphaning
-  // AFH 33-337: "fifth line below" = 4 blank lines between text and signature block
+  // AFH 33-337: "fifth line below" = 3 blank-line steps (each step includes leading),
+  // which equals ~4 single-line positions and places the block on the 5th line below.
   blank-lines(signature-blank-lines, weak: false)
   block(breakable: false)[
     #align(left)[

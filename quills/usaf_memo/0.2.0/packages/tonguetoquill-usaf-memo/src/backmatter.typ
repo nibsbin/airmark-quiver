@@ -11,7 +11,7 @@
 
 #let backmatter(
   signature_block: none,
-  signature_blank_lines: 4,
+  signature_blank_lines: 3,
   attachments: none,
   cc: none,
   distribution: none,

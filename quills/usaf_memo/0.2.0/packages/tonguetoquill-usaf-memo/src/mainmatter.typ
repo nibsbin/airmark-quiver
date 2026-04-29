@@ -14,19 +14,16 @@
 /// - "A single paragraph is not numbered" (§2)
 /// - First paragraph flush left, never indented
 ///
-/// Applies AFH 33-337 paragraph numbering and formatting to the main body
-/// of the memorandum. Automatically detects single vs. multiple paragraphs
-/// to comply with AFH 33-337 numbering requirements.
-///
-/// When `auto_numbering` is false (set in frontmatter), base-level paragraphs
-/// render flush left without numbering. Only explicitly numbered or bulleted
-/// items enter the numbering hierarchy.
+/// Numbering behavior is determined entirely by `memo_style`:
+/// - `"usaf"`: AFH 33-337 §2 — multiple top-level paragraphs are numbered
+///   `1.`, `2.`, …; a lone paragraph renders flush left without a number.
+/// - `"daf"`: top-level paragraphs are unnumbered with a fixed first-line
+///   indent; nested items are numbered.
 ///
 /// - content (content): The body content to render
 /// -> content
 #let mainmatter(it) = context {
   let config = query(metadata).last().value
-  let auto-numbering = config.at("auto_numbering", default: true)
   let memo-style = config.at("memo_style", default: "usaf")
-  render-body(it, auto-numbering: auto-numbering, memo-style: memo-style)
+  render-body(it, memo-style: memo-style)
 }

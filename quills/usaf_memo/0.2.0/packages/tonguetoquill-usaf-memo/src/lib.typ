@@ -34,8 +34,9 @@
 // #show: mainmatter
 //
 // Your memo body content here.
-// (USAF style auto-numbers per AFH 33-337; DAF style uses unnumbered
-// top-level paragraphs with fixed 0.5in first-line indentation)
+// (USAF style numbers multiple top-level paragraphs per AFH 33-337 §2;
+// DAF style uses unnumbered top-level paragraphs with a fixed 0.5in
+// first-line indentation.)
 //
 // #backmatter(
 //   signature_block: ("NAME, Rank, USAF", "Title"),

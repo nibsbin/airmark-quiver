@@ -134,7 +134,7 @@
   }
   let s = level.trim()
   // "TOP SECRET" before "SECRET" so the full phrase matches first.
-  let level-order = ("TOP SECRET", "SECRET", "UNCLASSIFIED")
+  let level-order = ("TOP SECRET", "SECRET", "CONFIDENTIAL", "CUI", "UNCLASSIFIED")
   for base-level in level-order {
     if s.starts-with(base-level) {
       return CLASSIFICATION_COLORS.at(base-level)

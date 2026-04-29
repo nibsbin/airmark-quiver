@@ -69,7 +69,7 @@
 #let CLASSIFICATION_COLORS = (
   "UNCLASSIFIED": rgb(0, 122, 51),   // Forest green (#007A33)
   "CUI":          rgb(0, 0, 0),      // Black (no mandated banner color per 32 CFR 2002)
-  "CONFIDENTIAL": rgb(0, 48, 135),   // Dark blue (#003087)
+  "CONFIDENTIAL": rgb(0, 0, 0),   // Dark blue (#003087)
   "SECRET":       rgb(200, 16, 46),  // Crimson red (#C8102E)
   "TOP SECRET":   rgb(255, 103, 31), // Burnt orange (#FF671F)
 )

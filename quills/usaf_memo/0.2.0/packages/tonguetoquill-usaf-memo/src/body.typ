@@ -297,6 +297,7 @@
       // top-level blank-line() call.
       // AFH 33-337 §11 rule applied below: "Avoid dividing a paragraph of
       // less than four lines between two pages"
+      let is_first_emission = not any_emitted
       if any_emitted { blank-line() }
       any_emitted = true
       if i == total_count {
@@ -324,6 +325,14 @@
           // Longer content (≥ 4 lines): use default breaking behavior
           block(breakable: true)[#final_par]
         }
+      } else if is_first_emission {
+        // Wrap the first emission in a block so the document-wide
+        // `set block(above: spacing.line)` rule contributes the same
+        // gap the single-paragraph branch already gets via its
+        // `block(sticky:/breakable:)` wrapper. Without this, switching
+        // from one paragraph (numbering off) to multiple (numbering on)
+        // shifts the first paragraph upward by `spacing.line`.
+        block[#final_par]
       } else {
         final_par
       }

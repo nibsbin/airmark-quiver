@@ -206,7 +206,10 @@
     action in ("none", "undecided", "approve", "disapprove"),
     message: "action must be \"none\", \"undecided\", \"approve\", or \"disapprove\"",
   )
-  blank-line()
+  // No leading blank-line: the caller (indorsement.typ) already emits the
+  // header→content gap once. The action line's `block(sticky: true)`
+  // additionally inherits `block.above: spacing.line` so the visual gap
+  // above matches the gap above a body's first paragraph.
   // Circle the selected option using a box with rounded corners
   // Use baseline parameter to maintain vertical text alignment
   let approve-text = if action == "approve" {
@@ -227,6 +230,10 @@
   // using the same sticky-block pattern that body.typ applies to the last
   // paragraph, per AFH 33-337 §11 orphan-prevention rules.
   block(sticky: true)[#approve-text / #disapprove-text]
+  // Trailing blank-line so the body's first paragraph (or signature block,
+  // when the body is empty) sits one line below the action line, mirroring
+  // the gap above it.
+  blank-line()
 }
 
 // =============================================================================

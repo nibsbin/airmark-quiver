@@ -24,6 +24,7 @@
   font_size: 12pt,
   memo_for_cols: 3,
   classification_level: none,
+  dissemination: none,
   footer_tag_line: none,
   memo_style: "usaf",
   it,
@@ -37,6 +38,26 @@
   )
 
   let actual_date = if date == none { datetime.today() } else { date }
+
+  let classification_marking = if classification_level == none or type(classification_level) != str {
+    none
+  } else {
+    let base = classification_level.trim()
+    if base == "" {
+      none
+    } else {
+      let disp = if dissemination == none or type(dissemination) != str {
+        ""
+      } else {
+        dissemination.trim()
+      }
+      if disp != "" {
+        base + "//" + upper(disp)
+      } else {
+        base
+      }
+    }
+  }
   let classification_color = get-classification-level-color(classification_level)
 
   // Document-wide typography settings (inlined from configure())
@@ -67,20 +88,22 @@
         )
       }
 
-      if classification_level != none {
+      if classification_marking != none {
         place(
           top + center,
           dy: 0.375in,
-          text(12pt, font: DEFAULT_BODY_FONTS, fill: classification_color)[#strong(classification_level)],
+          text(12pt, font: DEFAULT_BODY_FONTS, fill: classification_color)[#strong(classification_marking)],
         )
       }
     },
     footer: {
-      place(
-        bottom + center,
-        dy: -.375in,
-        text(12pt, font: DEFAULT_BODY_FONTS, fill: classification_color)[#strong(classification_level)],
-      )
+      if classification_marking != none {
+        place(
+          bottom + center,
+          dy: -.375in,
+          text(12pt, font: DEFAULT_BODY_FONTS, fill: classification_color)[#strong(classification_marking)],
+        )
+      }
 
       if not falsey(footer_tag_line) {
         place(

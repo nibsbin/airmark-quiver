@@ -36,6 +36,8 @@
   // Optional classification level
   ..if "classification" in data { (classification_level: data.classification) },
 
+  ..if "dissemination" in data { (dissemination: data.dissemination) },
+
   // USAF vs DAF memorandum style (date format, body indentation)
   memo_style: data.at("memo_style", default: "usaf"),
 

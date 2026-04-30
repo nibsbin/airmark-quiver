@@ -114,8 +114,8 @@
 
 /// Gets the banner color for a classification marking.
 ///
-/// Matches when `level` (trimmed) starts with a known prefix: TOP SECRET, SECRET, or UNCLASSIFIED.
-/// Otherwise returns black.
+/// Matches when `level` (trimmed) starts with a known prefix: TOP SECRET, SECRET,
+/// CONFIDENTIAL, CUI, or UNCLASSIFIED. Otherwise returns black.
 ///
 /// - level (str): Marking string shown in header/footer
 /// -> color
@@ -124,8 +124,8 @@
     return rgb(0, 0, 0)
   }
   let s = level.trim()
-  // "TOP SECRET" before "SECRET" so the full phrase matches first.
-  let level-order = ("TOP SECRET", "SECRET", "UNCLASSIFIED")
+  // Longest-prefix-first so e.g. "TOP SECRET" wins over "SECRET".
+  let level-order = ("TOP SECRET", "SECRET", "CONFIDENTIAL", "CUI", "UNCLASSIFIED")
   for base-level in level-order {
     if s.starts-with(base-level) {
       return CLASSIFICATION_COLORS.at(base-level)

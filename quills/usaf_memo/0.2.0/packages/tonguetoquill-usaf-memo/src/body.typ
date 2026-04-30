@@ -199,9 +199,15 @@
   //   item.kind       — "par", "heading", "table", or "continuation"
   context {
     let heading_buffer = none
+    // Filter out zero-width paragraphs so that an empty body (e.g. empty
+    // string from a CARD with no text) emits nothing and collapses to zero
+    // vertical space. Tables are always kept regardless of measured width.
+    let items = PAR_BUFFER.get().filter(item =>
+      item.kind == "table" or measure(item.content).width > 0pt
+    )
+    if items.len() == 0 { return }
     // Only top-level paragraphs count for AFH 33-337 §2 numbering purposes
-    let par_count = PAR_BUFFER.get().filter(item => item.kind == "par").len()
-    let items = PAR_BUFFER.get()
+    let par_count = items.filter(item => item.kind == "par").len()
     let total_count = items.len()
 
     // Track paragraph numbers per level manually to avoid nested-context

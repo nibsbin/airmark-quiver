@@ -175,13 +175,18 @@ main:
     classification:
       title: Classification level of the memo that displays in the banner
       type: string
-      default: ""
-      examples:
+      enum:
+        - ""
+        - UNCLASSIFIED
+        - CUI
         - CONFIDENTIAL
+        - SECRET
+        - TOP SECRET
+      default: ""
       ui:
         group: Additional
         compact: true
-      description: Follow AFI 31-401 and applicable DoD guidance for classification markings. Leave blank for unclassified.
+      description: "Select the classification marking displayed in the header/footer banner. Banner colors follow DoD/CAPCO marking guidance (UNCLASSIFIED green, CUI/CONFIDENTIAL black, SECRET red, TOP SECRET orange). Follow AFI 31-401 and applicable DoD guidance. Leave blank to omit the banner."
     
 card_types:
   indorsement:

@@ -30,7 +30,7 @@ signature_block:
   - FIRST M. LAST, Rank, USAF
   - Duty Title
 tag_line: Aim High
-classification: SECRET//FICTIONAL 
+classification: UNCLASSIFIED
 ---
 
 The `usaf_memo` Quill package takes care of all 33-337 formatting details. Focus on the content.

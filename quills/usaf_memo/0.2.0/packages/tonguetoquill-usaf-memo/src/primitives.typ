@@ -195,44 +195,17 @@
 // =============================================================================
 // ACTION LINE RENDERING
 // =============================================================================
-// Renders the Approve / Disapprove action line for indorsement memos.
-// action: "none" = no action line displayed (hidden), "undecided" = both options
-// rendered plain (no circle), "approve" = Approve circled,
-// "disapprove" = Disapprove circled. The action line is rendered when
-// action is "undecided", "approve", or "disapprove".
 
 #let render-action-line(action) = {
   assert(
     action in ("none", "undecided", "approve", "disapprove"),
     message: "action must be \"none\", \"undecided\", \"approve\", or \"disapprove\"",
   )
-  // No leading blank-line: the caller (indorsement.typ) already emits the
-  // header→content gap once. The action line's `block(sticky: true)`
-  // additionally inherits `block.above: spacing.line` so the visual gap
-  // above matches the gap above a body's first paragraph.
-  // Circle the selected option using a box with rounded corners
-  // Use baseline parameter to maintain vertical text alignment
-  let approve-text = if action == "approve" {
-    box(stroke: 0.5pt + black, radius: 2pt, inset: 2pt, baseline: 2pt)[Approve]
-  } else if action == "disapprove" {
-    strike[Approve]
-  } else {
-    [Approve]
-  }
-  let disapprove-text = if action == "disapprove" {
-    box(stroke: 0.5pt + black, radius: 2pt, inset: 2pt, baseline: 2pt)[Disapprove]
-  } else if action == "approve" {
-    strike[Disapprove]
-  } else {
-    [Disapprove]
-  }
-  // Keep the action line with the following content (body or signature block)
-  // using the same sticky-block pattern that body.typ applies to the last
-  // paragraph, per AFH 33-337 §11 orphan-prevention rules.
+  let circled(body) = box(stroke: 0.5pt + black, radius: 2pt, inset: 2pt, baseline: 2pt)[#body]
+  let approve-text = if action == "approve" { circled[Approve] } else if action == "disapprove" { strike[Approve] } else { [Approve] }
+  let disapprove-text = if action == "disapprove" { circled[Disapprove] } else if action == "approve" { strike[Disapprove] } else { [Disapprove] }
+  // sticky: keep action line with the body or signature that follows (AFH 33-337 §11).
   block(sticky: true)[#approve-text / #disapprove-text]
-  // Trailing blank-line so the body's first paragraph (or signature block,
-  // when the body is empty) sits one line below the action line, mirroring
-  // the gap above it.
   blank-line()
 }
 

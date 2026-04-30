@@ -199,9 +199,15 @@
   //   item.kind       — "par", "heading", "table", or "continuation"
   context {
     let heading_buffer = none
+    // Filter out zero-width paragraphs so that an empty body (e.g. empty
+    // string from a CARD with no text) emits nothing and collapses to zero
+    // vertical space. Tables are always kept regardless of measured width.
+    let items = PAR_BUFFER.get().filter(item =>
+      item.kind == "table" or measure(item.content).width > 0pt
+    )
+    if items.len() == 0 { return }
     // Only top-level paragraphs count for AFH 33-337 §2 numbering purposes
-    let par_count = PAR_BUFFER.get().filter(item => item.kind == "par").len()
-    let items = PAR_BUFFER.get()
+    let par_count = items.filter(item => item.kind == "par").len()
     let total_count = items.len()
 
     // Track paragraph numbers per level manually to avoid nested-context
@@ -319,7 +325,15 @@
           block(breakable: true)[#final_par]
         }
       } else {
-        final_par
+        // Wrap every non-last emission in a plain block so the document-wide
+        // `set block(above: spacing.line)` rule contributes the same 0.5em
+        // gap above every paragraph, including the first (matching the
+        // single-paragraph case which always passes through the
+        // `i == total_count` branch) and middle paragraphs (so the gap
+        // between the 1st and 2nd doesn't shrink relative to the gap
+        // between the 2nd-to-last and last). Bare emission would skip
+        // `block.above` entirely and visibly compress the spacing.
+        block[#final_par]
       }
     }
   }

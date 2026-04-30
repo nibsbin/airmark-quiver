@@ -187,6 +187,15 @@ main:
         group: Additional
         compact: true
       description: "Select the classification marking displayed in the header/footer banner. Banner colors follow DoD/CAPCO marking guidance (UNCLASSIFIED green, CUI/CONFIDENTIAL black, SECRET red, TOP SECRET orange). Follow AFI 31-401 and applicable DoD guidance. Leave blank to omit the banner."
+
+    dissemination:
+      title: Dissemination control marking (portion after //)
+      type: string
+      default: ""
+      ui:
+        group: Additional
+        compact: true
+      description: "Optional marking appended after double slash (e.g. NF with classification CUI renders as CUI//NF). Leave blank to show only the classification with no //."
     
 card_types:
   indorsement:

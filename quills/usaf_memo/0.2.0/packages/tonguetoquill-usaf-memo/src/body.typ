@@ -90,7 +90,7 @@
 // - "A single paragraph is not numbered" (§2)
 // - First paragraph flush left, never indented
 // - Indent sub-paragraphs to align with first character of parent paragraph text
-#let render-body(content, auto-numbering: true, memo-style: "usaf") = {
+#let render-body(content, memo-style: "usaf") = {
   let PAR_BUFFER = state("PAR_BUFFER")
   PAR_BUFFER.update(())
   let NEST_DOWN = counter("NEST_DOWN")
@@ -220,6 +220,7 @@
     }
 
     let i = 0
+    let any_emitted = false
     for item in items {
       i += 1
       let kind = item.kind
@@ -259,18 +260,10 @@
           // Continuation block within a multi-block list item:
           // indent to align with preceding numbered paragraph's text, no new number.
           // level-counts still holds the value of the preceding numbered paragraph.
-          if memo-style == "daf" {
-            if nest_level > 0 {
-              format-par(item_content, nest_level, level-counts, indent-fn, continuation: true)
-            } else {
-              item_content
-            }
-          } else if auto-numbering {
-            format-par(item_content, nest_level, level-counts, indent-fn, continuation: true)
-          } else if nest_level > 0 {
-            format-par(item_content, nest_level - 1, level-counts, indent-fn, continuation: true)
-          } else {
+          if memo-style == "daf" and nest_level == 0 {
             item_content
+          } else {
+            format-par(item_content, nest_level, level-counts, indent-fn, continuation: true)
           }
         } else if memo-style == "daf" {
           if nest_level > 0 {
@@ -284,37 +277,28 @@
             level-counts = reset-levels-from(level-counts, 0, max-levels)
             [#h(daf-paragraph.top-first-line-indent)#item_content]
           }
-        } else if auto-numbering {
-          if par_count > 1 {
-            // Apply paragraph numbering per AFH 33-337 §2
-            let par = format-par(item_content, nest_level, level-counts, indent-fn)
-            level-counts.insert(str(nest_level), level-counts.at(str(nest_level)) + 1)
-            level-counts = reset-levels-from(level-counts, nest_level + 1, max-levels)
-            par
-          } else {
-            // AFH 33-337 §2: "A single paragraph is not numbered"
-            item_content
-          }
+        } else if par_count > 1 {
+          // Apply paragraph numbering per AFH 33-337 §2
+          let par = format-par(item_content, nest_level, level-counts, indent-fn)
+          level-counts.insert(str(nest_level), level-counts.at(str(nest_level)) + 1)
+          level-counts = reset-levels-from(level-counts, nest_level + 1, max-levels)
+          par
         } else {
-          // Unnumbered mode: only explicitly nested items (enum/list) get numbered
-          if nest_level > 0 {
-            let effective_level = nest_level - 1
-            let par = format-par(item_content, effective_level, level-counts, indent-fn)
-            level-counts.insert(str(effective_level), level-counts.at(str(effective_level)) + 1)
-            level-counts = reset-levels-from(level-counts, effective_level + 1, max-levels)
-            par
-          } else {
-            // Base-level paragraphs are flush left with no numbering.
-            // Reset all child level counters so subsequent list items restart at 1.
-            level-counts = reset-levels-from(level-counts, 0, max-levels)
-            item_content
-          }
+          // AFH 33-337 §2: "A single paragraph is not numbered"
+          item_content
         }
       }
 
-      // If this is the final item, apply AFH 33-337 §11 rule:
-      // "Avoid dividing a paragraph of less than four lines between two pages"
-      blank-line()
+      // Blank line between paragraphs. The header→body gap (i.e. before
+      // the first emitted paragraph) is the caller's responsibility —
+      // emitting it here would put the v() inside a nested
+      // `context { for … }` block, where it does not combine with the
+      // preceding header section's block-spacing the same way as a
+      // top-level blank-line() call.
+      // AFH 33-337 §11 rule applied below: "Avoid dividing a paragraph of
+      // less than four lines between two pages"
+      if any_emitted { blank-line() }
+      any_emitted = true
       if i == total_count {
         let available_width = page.width - spacing.margin * 2
 

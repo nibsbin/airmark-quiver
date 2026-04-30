@@ -183,7 +183,7 @@
             #for line in signature-lines {
               // AFH 33-337: "indent the next line to begin under the third character
               // of the line above" — 2-character indent ≈ 1em in Times New Roman 12pt
-              par(hanging-indent: 1em, line)
+              par(hanging-indent: .5em, line)
             }
           ]
         ]

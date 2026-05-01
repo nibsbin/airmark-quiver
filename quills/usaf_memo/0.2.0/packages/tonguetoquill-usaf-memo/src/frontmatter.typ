@@ -25,6 +25,10 @@
   memo_for_cols: 3,
   classification_level: none,
   dissemination: none,
+  cui_controlled_by: none,
+  cui_category: none,
+  cui_limited_dissemination: none,
+  cui_poc: none,
   footer_tag_line: none,
   memo_style: "usaf",
   it,
@@ -59,6 +63,15 @@
     }
   }
   let classification_color = get-classification-level-color(classification_level)
+
+  // Build CUI Designation Indicator (32 CFR Part 2002 / DoDI 5200.48)
+  let cui_parts = ()
+  let _nonempty(v) = v != none and type(v) == str and v.trim() != ""
+  if _nonempty(cui_controlled_by) { cui_parts.push("Controlled by: " + cui_controlled_by.trim()) }
+  if _nonempty(cui_category)      { cui_parts.push("CUI Category: " + cui_category.trim()) }
+  if _nonempty(cui_limited_dissemination) { cui_parts.push("Dissemination Control: " + cui_limited_dissemination.trim()) }
+  if _nonempty(cui_poc)           { cui_parts.push("POC: " + cui_poc.trim()) }
+  let cui_indicator = if cui_parts.len() > 0 { cui_parts.join("  |  ") } else { none }
 
   // Document-wide typography settings (inlined from configure())
   set par(leading: spacing.line, spacing: spacing.line, justify: false)
@@ -112,6 +125,14 @@
           align(center)[
             #text(fill: LETTERHEAD_COLOR, font: "cinzel", size: 15pt)[#footer_tag_line]
           ],
+        )
+      }
+
+      if cui_indicator != none {
+        place(
+          bottom + left,
+          dy: -0.25in,
+          text(7.5pt, font: DEFAULT_BODY_FONTS)[#cui_indicator],
         )
       }
     },

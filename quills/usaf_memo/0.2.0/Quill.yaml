@@ -196,6 +196,41 @@ main:
         group: Additional
         compact: true
       description: "Optional marking appended after double slash (e.g. NF with classification CUI renders as CUI//NF). Leave blank to show only the classification with no //."
+
+    cui_controlled_by:
+      title: "CUI: Controlled By"
+      type: string
+      default: ""
+      ui:
+        group: CUI Markings
+        compact: true
+      description: "Organization or office that designated this information as CUI (e.g. USAF/A6). Required on CUI documents per 32 CFR Part 2002 and DoDI 5200.48."
+
+    cui_category:
+      title: "CUI: Category"
+      type: string
+      default: ""
+      ui:
+        group: CUI Markings
+        compact: true
+      description: "CUI category or subcategory abbreviation(s) per the NARA CUI Registry (e.g. PRVCY, CTI, OPSEC, MILSEC). Separate multiple categories with a space."
+
+    cui_limited_dissemination:
+      title: "CUI: Limited Dissemination Control"
+      type: string
+      default: ""
+      ui:
+        group: CUI Markings
+        compact: true
+      description: "Authorized limited dissemination control(s) per the CUI Registry (e.g. FEDCON, FED ONLY, NOFORN). Leave blank if none apply."
+
+    cui_poc:
+      title: "CUI: Point of Contact"
+      type: string
+      default: ""
+      ui:
+        group: CUI Markings
+      description: "Name, office symbol, and contact info for questions about the CUI designation (e.g. SSgt Jane Doe, ORG/SYMBOL, DSN 555-1234)."
     
 card_types:
   indorsement:

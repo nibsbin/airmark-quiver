@@ -263,8 +263,8 @@ card_types:
           group: Additional
         description: List of office symbols to receive copies of this endorsement.
       date:
-        title: Date of endorsement (YYYY-MM-DD)
+        title: Date of endorsement (YYYY-MM-DD); defaults to today
         type: date
         ui:
           group: Additional
-        description: Date of the endorsement. Leave blank to omit.
+        description: "YYYY-MM-DD. Date the endorser signs/forwards the memo (per AFH 33-337 Ch. 14, this is distinct from the originating memo's date). Leave blank to use today's date."

@@ -71,9 +71,12 @@
 // Indorsements - iterate through CARDS array and filter by CARD type
 #for card in data.CARDS {
   if card.CARD == "indorsement" {
+    // Per AFH 33-337 Ch. 14, an indorsement is dated when the endorser signs
+    // it (distinct from the originating memo's date). Default to today when
+    // the card omits or leaves the date blank.
     let card_date = card.at("date", default: none)
     let resolved_date = if card_date == none or card_date == "" {
-      data.at("date", default: none)
+      datetime.today()
     } else {
       card_date
     }
@@ -84,7 +87,7 @@
       ..if "attachments" in card { (attachments: card.attachments) },
       ..if "cc" in card { (cc: card.cc) },
       format: card.at("format", default: "standard"),
-      ..if resolved_date != none { (date: resolved_date) },
+      date: resolved_date,
       ..if "action" in card { (action: card.action) },
     )[
       #card.BODY

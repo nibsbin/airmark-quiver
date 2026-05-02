@@ -71,6 +71,12 @@
 // Indorsements - iterate through CARDS array and filter by CARD type
 #for card in data.CARDS {
   if card.CARD == "indorsement" {
+    let card_date = card.at("date", default: none)
+    let resolved_date = if card_date == none or card_date == "" {
+      data.at("date", default: none)
+    } else {
+      card_date
+    }
     indorsement(
       from: card.at("from", default: ""),
       to: card.at("for", default: ""),
@@ -78,7 +84,7 @@
       ..if "attachments" in card { (attachments: card.attachments) },
       ..if "cc" in card { (cc: card.cc) },
       format: card.at("format", default: "standard"),
-      ..if "date" in card { (date: card.date) },
+      ..if resolved_date != none { (date: resolved_date) },
       ..if "action" in card { (action: card.action) },
     )[
       #card.BODY

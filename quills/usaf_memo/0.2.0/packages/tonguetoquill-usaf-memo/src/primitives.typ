@@ -201,7 +201,7 @@
 // "disapprove" = Disapprove circled. The action line is rendered when
 // action is "undecided", "approve", or "disapprove".
 
-#let render-action-line(action) = {
+#let render-action-line(action, trailing-blank-line: true) = {
   assert(
     action in ("none", "undecided", "approve", "disapprove"),
     message: "action must be \"none\", \"undecided\", \"approve\", or \"disapprove\"",
@@ -230,10 +230,13 @@
   // using the same sticky-block pattern that body.typ applies to the last
   // paragraph, per AFH 33-337 §11 orphan-prevention rules.
   block(sticky: true)[#approve-text / #disapprove-text]
-  // Trailing blank-line so the body's first paragraph (or signature block,
-  // when the body is empty) sits one line below the action line, mirroring
-  // the gap above it.
-  blank-line()
+  // Trailing blank-line places the body's first paragraph one line below
+  // the action, mirroring the gap above it. Suppressed when the body is
+  // empty so the signature block's own 4-line gap lands on AFH 33-337's
+  // "fifth line below the last line of text" anchor.
+  if trailing-blank-line {
+    blank-line()
+  }
 }
 
 // =============================================================================

@@ -71,6 +71,12 @@
 // Indorsements - iterate through CARDS array and filter by CARD type
 #for card in data.CARDS {
   if card.CARD == "indorsement" {
+    // The quillmark helper leaves an unset/whitespace-only markdown body as
+    // the empty string `""`; only non-empty bodies are eval'd into content.
+    // Pass truly empty content (`[]`) in the empty case so indorsement can
+    // collapse the body's surrounding spacing.
+    let body = card.at("BODY", default: "")
+    let body_content = if type(body) == str { [] } else { body }
     indorsement(
       from: card.at("from", default: ""),
       to: card.at("for", default: ""),
@@ -80,8 +86,7 @@
       format: card.at("format", default: "standard"),
       ..if "date" in card { (date: card.date) },
       ..if "action" in card { (action: card.action) },
-    )[
-      #card.BODY
-    ]
+      body_content,
+    )
   }
 }

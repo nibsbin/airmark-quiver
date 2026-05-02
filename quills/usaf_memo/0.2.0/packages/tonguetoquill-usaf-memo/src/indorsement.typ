@@ -45,6 +45,18 @@
   let ind_from = first-or-value(from)
   let ind_for = to
 
+  // An empty body (e.g. a CARD with only an action selected and no markdown
+  // body) collapses to zero rendered layout via render-body's filter. To
+  // make the "empty body takes no layout space" guarantee end-to-end, also
+  // suppress the spacing the surrounding code reserves *for* the body:
+  // the header→body gap (when no action is present) and the action→body
+  // trailing gap. Without this, an empty body still leaves an extra
+  // blank-line stride above the signature, pushing it off the AFH 33-337
+  // "fifth line below the last line of text" anchor.
+  // The plate calls indorsement with `[]` when the markdown body is empty
+  // or whitespace-only; comparing against `[]` reliably detects that.
+  let body_empty = content == []
+
   if format != "informal" {
     // Step the counter BEFORE the context block to avoid read-then-update loop
     counters.indorsement.step()
@@ -89,20 +101,26 @@
         )
       }
     }
-    blank-line()
+    // Header→content gap. Skipped when there is neither an action line nor
+    // body to follow — render-signature-block supplies its own 4-line gap.
+    if action != none or not body_empty {
+      blank-line()
+    }
   }
 
   // Show action line only when an action decision is set (not `none`)
   if action != none {
-    render-action-line(action)
+    render-action-line(action, trailing-blank-line: not body_empty)
   }
 
-  context {
-    let memo-style = {
-      let items = query(metadata)
-      if items.len() > 0 { items.last().value.at("memo_style", default: "usaf") } else { "usaf" }
+  if not body_empty {
+    context {
+      let memo-style = {
+        let items = query(metadata)
+        if items.len() > 0 { items.last().value.at("memo_style", default: "usaf") } else { "usaf" }
+      }
+      render-body(content, memo-style: memo-style)
     }
-    render-body(content, memo-style: memo-style)
   }
 
   render-signature-block(signature_block, signature-blank-lines: signature_blank_lines)

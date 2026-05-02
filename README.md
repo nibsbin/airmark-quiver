@@ -17,20 +17,31 @@ and aligned to the current Quillmark spec.
 ## Install
 
 ```bash
-npm install @airmark/quiver @quillmark/quiver@0.5.0 @quillmark/wasm@0.66.2
+npm install @airmark/quiver @quillmark/quiver@^0.6.0 @quillmark/wasm
 ```
+
+This package ships only the Source Quiver assets (`Quiver.yaml` + `quills/`)
+and exposes no JavaScript API. All loading is performed by `@quillmark/quiver`,
+either from the on-disk package directory or from a packed archive fetched
+over HTTP.
 
 ## Usage
 
-### Load via the convenience helper
+### Load from the exported directory
+
+Resolve the package's `Quiver.yaml` via `import.meta.resolve` and hand it to
+`@quillmark/quiver`:
 
 ```ts
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import { Quillmark, Document } from '@quillmark/wasm';
-import { loadAirmarkQuiver } from '@airmark/quiver';
+import { Quiver } from '@quillmark/quiver/node';
+
+const quiverYaml = fileURLToPath(import.meta.resolve('@airmark/quiver/Quiver.yaml'));
+const quiver = await Quiver.fromDir(path.dirname(quiverYaml));
 
 const engine = new Quillmark();
-const quiver = await loadAirmarkQuiver();
-
 const doc = Document.fromMarkdown(`---
 QUILL: usaf_memo@0.2
 memo_for: ["ORG/SYMBOL"]
@@ -45,14 +56,11 @@ const quill = await quiver.getQuill(doc.quillRef, { engine });
 const { artifacts } = quill.render(doc, { format: 'pdf' });
 ```
 
-### Load from the exported directory
+### Load a packed Quiver via HTTP
 
-```ts
-import { Quiver } from '@quillmark/quiver/node';
-import { QUIVER_DIR } from '@airmark/quiver';
-
-const quiver = await Quiver.fromDir(QUIVER_DIR);
-```
+Publish a packed Quiver archive (e.g. as a CDN or GitHub release asset) and
+load it in the browser or any fetch-capable runtime through `@quillmark/quiver`.
+See the upstream `@quillmark/quiver` docs for the packed-format and HTTP API.
 
 ## Layout
 

@@ -199,7 +199,8 @@
 // action: "none" = no action line displayed (hidden), "undecided" = both options
 // rendered plain (no circle), "approve" = Approve circled,
 // "disapprove" = Disapprove circled. The action line is rendered when
-// action is "undecided", "approve", or "disapprove".
+// action is "undecided", "approve", or "disapprove". "none" suppresses
+// the line entirely (handled by the caller).
 
 #let render-action-line(action, trailing-blank-line: true) = {
   assert(

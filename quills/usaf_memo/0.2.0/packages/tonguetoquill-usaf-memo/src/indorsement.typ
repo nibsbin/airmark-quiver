@@ -103,13 +103,13 @@
     }
     // Header→content gap. Skipped when there is neither an action line nor
     // body to follow — render-signature-block supplies its own 4-line gap.
-    if action != none or not body_empty {
+    if (action != none and action != "none") or not body_empty {
       blank-line()
     }
   }
 
   // Show action line only when an action decision is set (not `none`)
-  if action != none {
+  if action != none and action != "none" {
     render-action-line(action, trailing-blank-line: not body_empty)
   }
 

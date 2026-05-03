@@ -244,12 +244,13 @@ card_types:
         title: Action Decision
         type: string
         enum:
+          - none
           - undecided
           - approve
           - disapprove
         ui:
           group: Addressing
-        description: "Action taken by the endorser. Use 'undecided' to display the Approve/Disapprove line with neither option circled, 'approve' or 'disapprove' to circle the selected option."
+        description: "Action taken by the endorser. Use 'none' to hide the Approve/Disapprove line entirely, 'undecided' to display the line with neither option circled, 'approve' or 'disapprove' to circle the selected option."
       attachments:
         title: Attachments for this endorsement
         type: array

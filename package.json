@@ -13,14 +13,14 @@
     "Quiver.yaml"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=24"
   },
   "devDependencies": {
-    "@quillmark/quiver": "^0.6.0",
-    "@quillmark/wasm": "0.66.2"
+    "@quillmark/quiver": "^0.7.0",
+    "@quillmark/wasm": "0.71.1"
   },
   "scripts": {
-    "test": "node --test",
+    "test": "node --test quiver.test.js",
     "release:patch": "npm version patch -m \"chore(release): %s\" && git push --follow-tags",
     "release:minor": "npm version minor -m \"chore(release): %s\" && git push --follow-tags"
   },

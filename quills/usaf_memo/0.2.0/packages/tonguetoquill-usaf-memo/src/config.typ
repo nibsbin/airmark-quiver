@@ -21,7 +21,7 @@
 
 #let DEFAULT_LETTERHEAD_FONTS = ("Copperplate CC", "NimbusRomNo9L", "times new roman")
 #let DEFAULT_BODY_FONTS = ("NimbusRomNo9L", "times new roman")  // AFH 33-337 §5: Times New Roman required
-#let LETTERHEAD_COLOR = rgb("#204093")  // Faded USAF blue for letterhead
+#let LETTERHEAD_COLOR = rgb("#355e93")  // Faded USAF blue for letterhead
 
 // =============================================================================
 // PARAGRAPH CONFIGURATION

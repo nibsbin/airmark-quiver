@@ -4,7 +4,7 @@ quill:
   backend: typst
   plate_file: plate.typ
   example_file: example.md
-  description: "Clean, dense single-page resume (TTQ Classic). Sections are composable cards rendered in document order."
+  description: "Clean, dense single-page resume (TTQ Classic). Each section is its own composable card; cards render in document order."
 
 main:
   body:
@@ -93,114 +93,179 @@ card_types:
           - { category: Frameworks, text: "FastAPI, Django, React, Next.js" }
 
   experience:
-    description: One job. Bullets go in the card body as a markdown list.
+    description: Work history. Each entry is one job with optional bullet accomplishments.
     ui:
-      title: Work Experience entry
-    body:
-      example: |
-        - Led migration of a 400 kLoC monolith to event-driven microservices, dropping p99 checkout latency from 1.8 s to 240 ms.
-        - Designed a real-time pricing service handling 50 K req/s on a 6-node Kubernetes cluster.
-    fields:
-      header:
-        type: string
-        description: "Section header (typically 'Work Experience' on the first card of this type, blank on subsequent)."
-      role:
-        type: string
-        required: true
-        ui:
-          compact: true
-      organization:
-        type: string
-        required: true
-        ui:
-          compact: true
-      location:
-        type: string
-        ui:
-          compact: true
-      dates:
-        type: string
-        ui:
-          compact: true
-
-  education:
-    description: One degree. Optional bullets (honors, GPA, coursework) go in the card body.
-    ui:
-      title: Education entry
-    body:
-      example: |
-        - Distinguished Graduate (top 10%); relevant coursework: Distributed Systems, Cryptography.
-    fields:
-      header:
-        type: string
-        description: Section header. Set on the first education card of a run; leave blank on subsequent.
-      degree:
-        type: string
-        required: true
-      school:
-        type: string
-        required: true
-      location:
-        type: string
-        ui:
-          compact: true
-      dates:
-        type: string
-        ui:
-          compact: true
-
-  competition:
-    description: A competition placing or hackathon. Bullets in the card body describe the event.
-    ui:
-      title: Cyber Competition entry
-    body:
-      example: |
-        - Competed as the team's web exploit SME, solving SQLi, API, and HTTP packet crafting problems.
-    fields:
-      header:
-        type: string
-        description: "Section header (e.g. 'Cyber Competition'). First card of run only."
-      title:
-        type: string
-        required: true
-        description: "Placement and event name (e.g. '1st in SANS Academy Cup 2024')."
-
-  project:
-    description: A project. Bullets in the card body describe it; URL renders top-right in monospace italic.
-    ui:
-      title: Project
-    body:
-      example: |
-        - Open-source markdown-to-PDF engine powered by Typst; 1.5 K GitHub stars.
-    fields:
-      header:
-        type: string
-        description: "Section header (e.g. 'Projects'). First card of run only."
-      name:
-        type: string
-        required: true
-      url:
-        type: string
-        description: Optional URL. Auto-linked when it starts with `http://` or `https://`; otherwise rendered as plain monospace italic text.
-
-  award:
-    description: One-line entry for awards, honors, or publications.
-    ui:
-      title: Award
+      title: Work Experience
     body:
       enabled: false
     fields:
       header:
         type: string
-        description: Section header. First card of run only.
-      title:
-        type: string
+        description: Section header above the entries (e.g. "Work Experience"). Leave blank to omit.
+      entries:
+        type: array
         required: true
-      issuer:
+        items:
+          type: object
+          properties:
+            role:
+              type: string
+              required: true
+              ui:
+                compact: true
+            organization:
+              type: string
+              required: true
+              ui:
+                compact: true
+            location:
+              type: string
+              ui:
+                compact: true
+            dates:
+              type: string
+              ui:
+                compact: true
+            bullets:
+              type: array
+              items:
+                type: markdown
+              description: One bullet per item. Inline markdown is honored.
+        example:
+          - role: Senior Software Engineer
+            organization: Acme Corp.
+            location: Remote
+            dates: Jan 2023 — Present
+            bullets:
+              - Led migration of a 400 kLoC monolith to event-driven microservices.
+              - Designed a real-time pricing service handling 50 K req/s on a 6-node Kubernetes cluster.
+
+  education:
+    description: Degrees and academic credentials. Optional bullets for honors / coursework.
+    ui:
+      title: Education
+    body:
+      enabled: false
+    fields:
+      header:
         type: string
-        ui:
-          compact: true
-      date:
+        description: Section header above the entries.
+      entries:
+        type: array
+        required: true
+        items:
+          type: object
+          properties:
+            degree:
+              type: string
+              required: true
+            school:
+              type: string
+              required: true
+            location:
+              type: string
+              ui:
+                compact: true
+            dates:
+              type: string
+              ui:
+                compact: true
+            bullets:
+              type: array
+              items:
+                type: markdown
+        example:
+          - degree: B.S. Computer Science
+            school: State University
+            location: Anytown, USA
+            dates: 2015 — 2019
+
+  competition:
+    description: Competitions, hackathons, or similar achievements with bullets but no role/dates.
+    ui:
+      title: Cyber Competition
+    body:
+      enabled: false
+    fields:
+      header:
         type: string
-        ui:
-          compact: true
+      entries:
+        type: array
+        required: true
+        items:
+          type: object
+          properties:
+            title:
+              type: string
+              required: true
+              description: Placement and event name (e.g. "1st in SANS Academy Cup 2024").
+            bullets:
+              type: array
+              items:
+                type: markdown
+        example:
+          - title: 1st in SANS Academy Cup 2024
+            bullets:
+              - Solved SQLi, API, and HTTP packet crafting problems.
+
+  project:
+    description: Projects with optional URLs (rendered top-right in monospace italic).
+    ui:
+      title: Projects
+    body:
+      enabled: false
+    fields:
+      header:
+        type: string
+      entries:
+        type: array
+        required: true
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+              required: true
+            url:
+              type: string
+              description: Auto-linked when starting with `http://` or `https://`; otherwise rendered as plain monospace italic text.
+            bullets:
+              type: array
+              items:
+                type: markdown
+        example:
+          - name: Quillmark
+            url: "https://quillmark.dev"
+            bullets:
+              - Open-source markdown-to-PDF engine powered by Typst.
+
+  award:
+    description: One-line entries for awards, honors, or publications.
+    ui:
+      title: Awards
+    body:
+      enabled: false
+    fields:
+      header:
+        type: string
+      entries:
+        type: array
+        required: true
+        items:
+          type: object
+          properties:
+            title:
+              type: string
+              required: true
+            issuer:
+              type: string
+              ui:
+                compact: true
+            date:
+              type: string
+              ui:
+                compact: true
+        example:
+          - title: Engineering Excellence Award
+            issuer: Acme Corp.
+            date: "2024"

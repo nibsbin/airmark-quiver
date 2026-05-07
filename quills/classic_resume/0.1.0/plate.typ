@@ -3,14 +3,6 @@
 
 #show: resume
 
-// String passthrough: empty/missing -> none, otherwise the string itself.
-// Field values render as plain text; inline markdown and Typst markup are
-// not evaluated. Use the card body for prose.
-#let render(v) = {
-  if v == none or v == "" { none }
-  else { v }
-}
-
 // Auto-link http(s):// and mailto: contacts. Everything else is plain text.
 #let render-contact(s) = {
   if type(s) != str { return s }
@@ -24,19 +16,20 @@
   }
 }
 
-// Quillmark sets BODY to the empty string when there's no markdown body and
-// to rendered content otherwise. Coerce to none / content for component use.
-#let card-body(card) = {
-  let b = card.at("BODY", default: "")
-  if type(b) == str { none } else { b }
+// Build a bulleted list from an array of bullet items. Each item is either
+// pre-rendered content (when declared `type: markdown`) or a string (which
+// auto-coerces to text). `none` if the array is empty/missing.
+#let bullets-body(items) = {
+  if items == none or items.len() == 0 { return none }
+  list(..items)
 }
 
 #header(
-  name: render(data.at("name", default: none)),
+  name: data.at("name", default: none),
   contacts: data.at("contacts", default: ()).map(render-contact),
 )
 
-// Document body becomes the summary paragraph.
+// Document body becomes the summary paragraph above the cards.
 #let main-body = data.at("BODY", default: none)
 #if main-body != none and type(main-body) != str { summary(main-body) }
 
@@ -57,41 +50,51 @@
       columns: card.at("columns", default: 2),
     )
   } else if t == "experience" {
-    entry(
-      heading-left: render(card.at("role", default: none)),
-      heading-right: render(card.at("dates", default: none)),
-      subheading-left: render(card.at("organization", default: none)),
-      subheading-right: render(card.at("location", default: none)),
-      body: card-body(card),
-    )
-  } else if t == "education" {
-    entry(
-      heading-left: render(card.at("degree", default: none)),
-      heading-right: render(card.at("dates", default: none)),
-      subheading-left: render(card.at("school", default: none)),
-      subheading-right: render(card.at("location", default: none)),
-      body: card-body(card),
-    )
-  } else if t == "competition" {
-    entry(
-      heading-left: render(card.at("title", default: none)),
-      body: card-body(card),
-    )
-  } else if t == "project" {
-    let url = card.at("url", default: "")
-    entry(
-      heading-left: render(card.at("name", default: none)),
-      heading-right: if url != "" { monolink(url) } else { none },
-      body: card-body(card),
-    )
-  } else if t == "award" {
-    let issuer = card.at("issuer", default: "")
-    let title-bold = [*#render(card.at("title", default: none))*]
-    let left = if issuer != "" {
-      [#title-bold — #issuer]
-    } else {
-      title-bold
+    for e in card.at("entries", default: ()) {
+      entry(
+        heading-left: e.at("role", default: none),
+        heading-right: e.at("dates", default: none),
+        subheading-left: e.at("organization", default: none),
+        subheading-right: e.at("location", default: none),
+        body: bullets-body(e.at("bullets", default: ())),
+      )
     }
-    compact-entry(left, right: render(card.at("date", default: none)))
+  } else if t == "education" {
+    for e in card.at("entries", default: ()) {
+      entry(
+        heading-left: e.at("degree", default: none),
+        heading-right: e.at("dates", default: none),
+        subheading-left: e.at("school", default: none),
+        subheading-right: e.at("location", default: none),
+        body: bullets-body(e.at("bullets", default: ())),
+      )
+    }
+  } else if t == "competition" {
+    for e in card.at("entries", default: ()) {
+      entry(
+        heading-left: e.at("title", default: none),
+        body: bullets-body(e.at("bullets", default: ())),
+      )
+    }
+  } else if t == "project" {
+    for e in card.at("entries", default: ()) {
+      let url = e.at("url", default: "")
+      entry(
+        heading-left: e.at("name", default: none),
+        heading-right: if url != "" { monolink(url) } else { none },
+        body: bullets-body(e.at("bullets", default: ())),
+      )
+    }
+  } else if t == "award" {
+    for e in card.at("entries", default: ()) {
+      let issuer = e.at("issuer", default: "")
+      let title-bold = text(weight: "bold", e.at("title", default: ""))
+      let left = if issuer != "" {
+        [#title-bold — #issuer]
+      } else {
+        title-bold
+      }
+      compact-entry(left, right: e.at("date", default: none))
+    }
   }
 }

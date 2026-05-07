@@ -4,7 +4,7 @@ quill:
   backend: typst
   plate_file: plate.typ
   example_file: example.md
-  description: Typesetted USAF Official Memorandum
+  description: U.S. Air Force and Space Force Official Memorandum
 
 main:
   body:

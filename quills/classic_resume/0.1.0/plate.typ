@@ -84,19 +84,16 @@
   }
 }
 
-#let sk = data.at("skills", default: none)
-#if sk != none {
-  let items = sk.at("items", default: ())
-  if items.len() > 0 {
-    section[Skills]
-    skills(
-      items.map(it => (
-        category: render(it.category),
-        text: render(it.text),
-      )),
-      columns: sk.at("columns", default: 2),
-    )
-  }
+#let sk = data.at("skills", default: ())
+#if sk.len() > 0 {
+  section[Skills]
+  skills(
+    sk.map(it => (
+      category: render(it.category),
+      text: render(it.text),
+    )),
+    columns: data.at("skill_columns", default: 2),
+  )
 }
 
 #let aws = data.at("awards", default: ())

@@ -90,10 +90,10 @@
 
 #compact-entry(
   [*Engineering Excellence Award* — Acme Corp.],
-  [2024],
+  right: [2024],
 )
 
 #compact-entry(
   [*Top 1% Reviewer*, ICML],
-  [2022],
+  right: [2022],
 )

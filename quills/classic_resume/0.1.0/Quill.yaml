@@ -39,10 +39,59 @@ main:
         `https://`, or `mailto:` auto-link; everything else renders as
         Typst markup so `*bold*`, `_italic_`, and `#link(...)` are honored.
 
+    certifications:
+      type: array
+      items:
+        type: string
+      ui:
+        group: Certifications
+      example:
+        - Offensive Security Certified Professional (OSCP)
+        - GIAC Cyber Threat Intelligence (GCTI)
+      description: Flat list of active certifications, rendered in a multi-column grid above Skills.
+
+    certification_columns:
+      type: integer
+      default: 2
+      ui:
+        group: Certifications
+        compact: true
+      description: Number of certification grid columns.
+
+    skills:
+      type: array
+      ui:
+        group: Skills
+      items:
+        type: object
+        properties:
+          category:
+            type: string
+            required: true
+            ui:
+              compact: true
+          text:
+            type: string
+            required: true
+      example:
+        - { category: Languages, text: "Go, Python, TypeScript, Rust" }
+        - { category: Frameworks, text: "FastAPI, Django, React, Next.js" }
+        - { category: Infrastructure, text: "Kubernetes, AWS, Terraform, PostgreSQL, Kafka" }
+        - { category: Tools, text: "Git, Docker, Bazel, Datadog" }
+      description: Categorized skills grid. Each item has a bold category header and a comma-separated text body.
+
+    skill_columns:
+      type: integer
+      default: 2
+      ui:
+        group: Skills
+        compact: true
+      description: Number of skills grid columns (1–3 typical).
+
     experience:
       type: array
       ui:
-        group: Sections
+        group: Work Experience
       items:
         type: object
         properties:
@@ -78,19 +127,12 @@ main:
             - Led migration of a 400 kLoC monolith to event-driven microservices, dropping p99 checkout latency from 1.8 s to 240 ms.
             - Designed a real-time pricing service handling 50 K req/s on a 6-node Kubernetes cluster.
             - Mentored 4 engineers; introduced trunk-based development and codified release practices.
-        - role: Software Engineer
-          organization: Globex Inc.
-          location: New York, NY
-          dates: Jun 2019 — Dec 2022
-          bullets:
-            - Built customer analytics dashboard serving 10 K+ daily users (React, FastAPI, ClickHouse).
-            - Cut infrastructure spend 25 % via right-sizing, spot-instance migration, and aggressive caching.
       description: Work history, newest first.
 
     education:
       type: array
       ui:
-        group: Sections
+        group: Education
       items:
         type: object
         properties:
@@ -119,10 +161,30 @@ main:
           location: Anytown, USA
           dates: 2015 — 2019
 
+    competitions:
+      type: array
+      ui:
+        group: Cyber Competition
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+            required: true
+          bullets:
+            type: array
+            items:
+              type: string
+      example:
+        - title: 1st in SANS Academy Cup 2024
+          bullets:
+            - Solving SQLi, API, and HTTP packet crafting problems.
+      description: Competitions, hackathons, or similar achievements with bullets but no role/dates.
+
     projects:
       type: array
       ui:
-        group: Sections
+        group: Projects
       items:
         type: object
         properties:
@@ -140,46 +202,12 @@ main:
         - name: Quillmark
           url: "https://quillmark.dev"
           bullets:
-            - Open-source markdown-to-PDF engine powered by Typst; 1.5 K GitHub stars, used in production by three commercial deployments.
-        - name: pgwarp
-          url: "https://github.com/jdoe/pgwarp"
-          bullets:
-            - Logical-replication-based zero-downtime Postgres major-version upgrade tool.
-
-    skills:
-      type: array
-      ui:
-        group: Skills
-      items:
-        type: object
-        properties:
-          category:
-            type: string
-            required: true
-            ui:
-              compact: true
-          text:
-            type: string
-            required: true
-      example:
-        - { category: Languages, text: "Go, Python, TypeScript, Rust" }
-        - { category: Frameworks, text: "FastAPI, Django, React, Next.js" }
-        - { category: Infrastructure, text: "Kubernetes, AWS, Terraform, PostgreSQL, Kafka" }
-        - { category: Tools, text: "Git, Docker, Bazel, Datadog" }
-      description: Categorized skills grid. Each item has a bold category header and a comma-separated text body.
-
-    skill_columns:
-      type: integer
-      default: 2
-      ui:
-        group: Skills
-        compact: true
-      description: Number of skills grid columns (1–3 typical).
+            - Open-source markdown-to-PDF engine powered by Typst.
 
     awards:
       type: array
       ui:
-        group: Sections
+        group: Awards
       items:
         type: object
         properties:
@@ -198,6 +226,4 @@ main:
         - title: Engineering Excellence Award
           issuer: Acme Corp.
           date: "2024"
-        - title: "Top 1% Reviewer, ICML"
-          date: "2022"
-      description: Awards, honors, certifications, publications — anything that fits the one-liner shape.
+      description: One-line entries for awards, honors, or publications.

@@ -43,9 +43,30 @@
 #let body = data.at("BODY", default: none)
 #if body != none and type(body) != str { summary(body) }
 
+#let certs = data.at("certifications", default: ())
+#if certs.len() > 0 {
+  section[Active Certifications]
+  skills(
+    certs.map(render),
+    columns: data.at("certification_columns", default: 2),
+  )
+}
+
+#let sk = data.at("skills", default: ())
+#if sk.len() > 0 {
+  section[Skills]
+  skills(
+    sk.map(it => (
+      category: render(it.category),
+      text: render(it.text),
+    )),
+    columns: data.at("skill_columns", default: 2),
+  )
+}
+
 #let xp = data.at("experience", default: ())
 #if xp.len() > 0 {
-  section[Experience]
+  section[Work Experience]
   for e in xp {
     entry(
       heading-left: render(e.at("role", default: none)),
@@ -71,6 +92,17 @@
   }
 }
 
+#let comps = data.at("competitions", default: ())
+#if comps.len() > 0 {
+  section[Cyber Competition]
+  for c in comps {
+    entry(
+      heading-left: render(c.at("title", default: none)),
+      body: bullets-body(c.at("bullets", default: none)),
+    )
+  }
+}
+
 #let projs = data.at("projects", default: ())
 #if projs.len() > 0 {
   section[Projects]
@@ -82,18 +114,6 @@
       body: bullets-body(p.at("bullets", default: none)),
     )
   }
-}
-
-#let sk = data.at("skills", default: ())
-#if sk.len() > 0 {
-  section[Skills]
-  skills(
-    sk.map(it => (
-      category: render(it.category),
-      text: render(it.text),
-    )),
-    columns: data.at("skill_columns", default: 2),
-  )
 }
 
 #let aws = data.at("awards", default: ())

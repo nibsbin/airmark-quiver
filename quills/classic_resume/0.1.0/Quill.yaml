@@ -22,17 +22,13 @@ main:
 
     contacts:
       type: array
-      items:
-        type: string
       required: true
       example:
         - "mailto:jane@example.com"
         - "+1 (555) 555-5555"
         - San Francisco, CA
         - "https://janedoe.dev"
-      description: |
-        Contact line items joined by ❖. Strings starting with `http://`,
-        `https://`, or `mailto:` auto-link; everything else is plain text.
+      description: "Contact line items joined by ❖. Strings starting with `http://`, `https://`, or `mailto:` auto-link; everything else is plain text."
 
 card_types:
   certifications:
@@ -53,8 +49,6 @@ card_types:
       items:
         type: array
         required: true
-        items:
-          type: string
         example:
           - Offensive Security Certified Professional (OSCP)
           - GIAC Cyber Threat Intelligence (GCTI)
@@ -77,20 +71,10 @@ card_types:
       items:
         type: array
         required: true
-        items:
-          type: object
-          properties:
-            category:
-              type: string
-              required: true
-              ui:
-                compact: true
-            text:
-              type: string
-              required: true
         example:
           - { category: Languages, text: "Go, Python, TypeScript, Rust" }
           - { category: Frameworks, text: "FastAPI, Django, React, Next.js" }
+        description: "Each item has shape `{ category: string, text: string }`."
 
   experience:
     description: Work history. Each entry is one job with optional bullet accomplishments.
@@ -105,32 +89,6 @@ card_types:
       entries:
         type: array
         required: true
-        items:
-          type: object
-          properties:
-            role:
-              type: string
-              required: true
-              ui:
-                compact: true
-            organization:
-              type: string
-              required: true
-              ui:
-                compact: true
-            location:
-              type: string
-              ui:
-                compact: true
-            dates:
-              type: string
-              ui:
-                compact: true
-            bullets:
-              type: array
-              items:
-                type: markdown
-              description: One bullet per item. Inline markdown is honored.
         example:
           - role: Senior Software Engineer
             organization: Acme Corp.
@@ -139,6 +97,7 @@ card_types:
             bullets:
               - Led migration of a 400 kLoC monolith to event-driven microservices.
               - Designed a real-time pricing service handling 50 K req/s on a 6-node Kubernetes cluster.
+        description: "Each entry has shape `{ role, organization, location?, dates?, bullets?: array<string> }`. Bullets render as plain text."
 
   education:
     description: Degrees and academic credentials. Optional bullets for honors / coursework.
@@ -153,32 +112,12 @@ card_types:
       entries:
         type: array
         required: true
-        items:
-          type: object
-          properties:
-            degree:
-              type: string
-              required: true
-            school:
-              type: string
-              required: true
-            location:
-              type: string
-              ui:
-                compact: true
-            dates:
-              type: string
-              ui:
-                compact: true
-            bullets:
-              type: array
-              items:
-                type: markdown
         example:
           - degree: B.S. Computer Science
             school: State University
             location: Anytown, USA
             dates: 2015 — 2019
+        description: "Each entry has shape `{ degree, school, location?, dates?, bullets?: array<string> }`."
 
   competition:
     description: Competitions, hackathons, or similar achievements with bullets but no role/dates.
@@ -192,21 +131,11 @@ card_types:
       entries:
         type: array
         required: true
-        items:
-          type: object
-          properties:
-            title:
-              type: string
-              required: true
-              description: Placement and event name (e.g. "1st in SANS Academy Cup 2024").
-            bullets:
-              type: array
-              items:
-                type: markdown
         example:
           - title: 1st in SANS Academy Cup 2024
             bullets:
               - Solved SQLi, API, and HTTP packet crafting problems.
+        description: "Each entry has shape `{ title, bullets?: array<string> }`."
 
   project:
     description: Projects with optional URLs (rendered top-right in monospace italic).
@@ -220,24 +149,12 @@ card_types:
       entries:
         type: array
         required: true
-        items:
-          type: object
-          properties:
-            name:
-              type: string
-              required: true
-            url:
-              type: string
-              description: Auto-linked when starting with `http://` or `https://`; otherwise rendered as plain monospace italic text.
-            bullets:
-              type: array
-              items:
-                type: markdown
         example:
           - name: Quillmark
             url: "https://quillmark.dev"
             bullets:
               - Open-source markdown-to-PDF engine powered by Typst.
+        description: "Each entry has shape `{ name, url?, bullets?: array<string> }`. URLs starting with http(s):// auto-link."
 
   award:
     description: One-line entries for awards, honors, or publications.
@@ -251,21 +168,8 @@ card_types:
       entries:
         type: array
         required: true
-        items:
-          type: object
-          properties:
-            title:
-              type: string
-              required: true
-            issuer:
-              type: string
-              ui:
-                compact: true
-            date:
-              type: string
-              ui:
-                compact: true
         example:
           - title: Engineering Excellence Award
             issuer: Acme Corp.
             date: "2024"
+        description: "Each entry has shape `{ title, issuer?, date? }`."

@@ -136,14 +136,17 @@
     LINE_STRIDE.update(line-stride)
   }
 
-  metadata((
+  // Labelled so downstream queries can target the config dict without picking
+  // up other metadata in the document (e.g. signature-field markers emitted by
+  // the quillmark helper, which would otherwise be the "last" metadata).
+  [#metadata((
     subject: subject,
     original_date: actual_date,
     original_from: first-or-value(memo_from),
     body_font: body_font,
     font_size: font_size,
     memo_style: memo_style,
-  ))
+  )) <usaf-memo-config>]
 
   render-date-section(actual_date, memo-style: memo_style)
   render-for-section(memo_for, memo_for_cols)

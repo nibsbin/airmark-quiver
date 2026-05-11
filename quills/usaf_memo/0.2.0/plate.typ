@@ -1,5 +1,14 @@
-#import "@local/quillmark-helper:0.1.0": data
+#import "@local/quillmark-helper:0.1.0": data, signature-field
 #import "@local/tonguetoquill-usaf-memo:3.0.0": backmatter, frontmatter, indorsement, mainmatter
+
+// Signature field builder: a thin stroke around the AcroForm signature widget,
+// sized by `render-signature-block` to fill the 4-line gap above the signature.
+#let signing-box(name) = (width, height) => box(
+  width: width,
+  height: height,
+  stroke: 0.4pt + luma(60%),
+  signature-field(name, width: width, height: height),
+)
 
 // Frontmatter configuration
 #show: frontmatter.with(
@@ -58,6 +67,9 @@
   // Signature block
   signature_block: data.signature_block,
 
+  // Visible AcroForm signature widget filling the 4-line gap above the block.
+  signature_field: signing-box("primary_signature"),
+
   // Optional cc
   ..if "cc" in data { (cc: data.cc) },
 
@@ -69,33 +81,40 @@
 )
 
 // Indorsements - iterate through CARDS array and filter by CARD type
-#for card in data.CARDS {
-  if card.CARD == "indorsement" {
-    // The quillmark helper leaves an unset/whitespace-only markdown body as
-    // the empty string `""`; only non-empty bodies are eval'd into content.
-    // Pass truly empty content (`[]`) in the empty case so indorsement can
-    // collapse the body's surrounding spacing.
-    let body = card.at("BODY", default: "")
-    let body_content = if type(body) == str { [] } else { body }
-    // Per AFH 33-337 Ch. 14, an indorsement is dated when the endorser signs
-    // it (distinct from the originating memo's date). Default to today when
-    // the card omits or leaves the date blank.
-    let card_date = card.at("date", default: none)
-    let resolved_date = if card_date == none or card_date == "" {
-      datetime.today()
-    } else {
-      card_date
+#{
+  let ind_index = 0
+  for card in data.CARDS {
+    if card.CARD == "indorsement" {
+      ind_index += 1
+      // The quillmark helper leaves an unset/whitespace-only markdown body as
+      // the empty string `""`; only non-empty bodies are eval'd into content.
+      // Pass truly empty content (`[]`) in the empty case so indorsement can
+      // collapse the body's surrounding spacing.
+      let body = card.at("BODY", default: "")
+      let body_content = if type(body) == str { [] } else { body }
+      // Per AFH 33-337 Ch. 14, an indorsement is dated when the endorser signs
+      // it (distinct from the originating memo's date). Default to today when
+      // the card omits or leaves the date blank.
+      let card_date = card.at("date", default: none)
+      let resolved_date = if card_date == none or card_date == "" {
+        datetime.today()
+      } else {
+        card_date
+      }
+      indorsement(
+        from: card.at("from", default: ""),
+        to: card.at("for", default: ""),
+        signature_block: card.signature_block,
+        // Field names must be unique across the document; encode the card's
+        // 1-based position so each indorsement gets its own widget.
+        signature_field: signing-box("indorsement_" + str(ind_index) + "_signature"),
+        ..if "attachments" in card { (attachments: card.attachments) },
+        ..if "cc" in card { (cc: card.cc) },
+        format: card.at("format", default: "standard"),
+        date: resolved_date,
+        ..if "action" in card { (action: card.action) },
+        body_content,
+      )
     }
-    indorsement(
-      from: card.at("from", default: ""),
-      to: card.at("for", default: ""),
-      signature_block: card.signature_block,
-      ..if "attachments" in card { (attachments: card.attachments) },
-      ..if "cc" in card { (cc: card.cc) },
-      format: card.at("format", default: "standard"),
-      date: resolved_date,
-      ..if "action" in card { (action: card.action) },
-      body_content,
-    )
   }
 }

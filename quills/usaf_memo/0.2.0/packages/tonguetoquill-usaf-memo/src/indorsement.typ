@@ -18,6 +18,11 @@
   to: none,
   signature_block: none,
   signature_blank_lines: 4,
+  // Optional builder `(width, height) -> content` for the gap above this
+  // indorsement's signature block (see `render-signature-block`). Each
+  // indorsement needs a unique field name; the plate is responsible for
+  // generating one per card.
+  signature_field: none,
   attachments: none,
   cc: none,
   date: none,
@@ -68,7 +73,7 @@
     counters.indorsement.step()
 
     context {
-      let config = query(metadata).last().value
+      let config = query(<usaf-memo-config>).last().value
       let memo-style = config.at("memo_style", default: "usaf")
       let original_subject = config.subject
       let original_date = config.original_date
@@ -122,14 +127,18 @@
   if not body_empty {
     context {
       let memo-style = {
-        let items = query(metadata)
+        let items = query(<usaf-memo-config>)
         if items.len() > 0 { items.last().value.at("memo_style", default: "usaf") } else { "usaf" }
       }
       render-body(content, memo-style: memo-style)
     }
   }
 
-  render-signature-block(signature_block, signature-blank-lines: signature_blank_lines)
+  render-signature-block(
+    signature_block,
+    signature-blank-lines: signature_blank_lines,
+    signature-field: signature_field,
+  )
 
   render-backmatter-sections(attachments: attachments, cc: cc)
 }

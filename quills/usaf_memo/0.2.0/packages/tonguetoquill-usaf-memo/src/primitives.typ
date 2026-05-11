@@ -148,11 +148,15 @@
 // AFH 33-337 long-name example: "Signature block adjusted to the left" when a
 // long name would otherwise exceed the right margin.
 
-#let render-signature-block(signature-lines, signature-blank-lines: 4) = {
+#let render-signature-block(
+  signature-lines,
+  signature-blank-lines: 4,
+  // Optional builder `(width, height) -> content` for the gap above the signature.
+  // When provided, the returned content replaces the blank-line gap and shares
+  // the signature block's column (same left-pad, full remaining body width).
+  signature-field: none,
+) = {
   signature-lines = ensure-array(signature-lines)
-  // AFH 33-337: "fifth line below" = 4 blank lines between text and signature block.
-  // breakable: false discourages orphaning the signature block onto a page by itself.
-  blank-lines(signature-blank-lines)
   // AFH 33-337 allows two equivalent anchors: 4.5in from the left edge, or three
   // spaces right of page center. On 8.5in stock these coincide (page center =
   // 4.25in; three TNR-12pt spaces ≈ 0.25in), so we use 4.5in as the canonical
@@ -176,19 +180,54 @@
     } else {
       default-pad
     }
-    block(breakable: false)[
-      #align(left)[
-        #pad(left: left-pad)[
-          #text(hyphenate: false)[
-            #for line in signature-lines {
-              // AFH 33-337: "indent the next line to begin under the third character
-              // of the line above" — 2-character indent ≈ 1em in Times New Roman 12pt
-              par(hanging-indent: .5em, line)
-            }
+    // AFH 33-337: "fifth line below" = 4 blank lines between text and signature block.
+    // breakable: false discourages orphaning the signature block onto a page by itself.
+    let has-field = signature-field != none and signature-blank-lines > 0
+    if has-field {
+      // Reserve the same stride as blank-lines would for a visible field box,
+      // so the signature anchors on AFH 33-337's "fifth line below the last
+      // line of text" regardless of whether the gap is blank or filled.
+      let stride = LINE_STRIDE.get()
+      if stride == none {
+        let one-line = measure(par(spacing: 0pt)[x]).height
+        stride = measure(par(spacing: 0pt)[x#linebreak()x]).height - one-line
+      }
+      let field-height = stride * signature-blank-lines
+      let field-width = body-width - left-pad
+      // The field shares the signature's non-breakable block so they never split
+      // across pages — once we draw the box, the signature must accompany it.
+      block(breakable: false)[
+        #align(left)[
+          #pad(left: left-pad)[
+            #block(spacing: 0pt, height: field-height)[
+              #(signature-field)(field-width, field-height)
+            ]
+            #text(hyphenate: false)[
+              #for line in signature-lines {
+                // AFH 33-337: "indent the next line to begin under the third character
+                // of the line above" — 2-character indent ≈ 1em in Times New Roman 12pt
+                par(hanging-indent: .5em, line)
+              }
+            ]
           ]
         ]
       ]
-    ]
+    } else {
+      blank-lines(signature-blank-lines)
+      block(breakable: false)[
+        #align(left)[
+          #pad(left: left-pad)[
+            #text(hyphenate: false)[
+              #for line in signature-lines {
+                // AFH 33-337: "indent the next line to begin under the third character
+                // of the line above" — 2-character indent ≈ 1em in Times New Roman 12pt
+                par(hanging-indent: .5em, line)
+              }
+            ]
+          ]
+        ]
+      ]
+    }
   }
 }
 

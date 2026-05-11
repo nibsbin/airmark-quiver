@@ -91,7 +91,7 @@
       from: card.at("from", default: ""),
       to: card.at("for", default: ""),
       signature_block: card.signature_block,
-      signing_field: signature-field("Ind-" + str(i) + "-Signature"),
+      signing_field: signature-field("Ind_" + str(i) + "_Signature"),
       ..if "attachments" in card { (attachments: card.attachments) },
       ..if "cc" in card { (cc: card.cc) },
       format: card.at("format", default: "standard"),

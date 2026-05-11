@@ -148,7 +148,7 @@
 // AFH 33-337 long-name example: "Signature block adjusted to the left" when a
 // long name would otherwise exceed the right margin.
 
-#let render-signature-block(signature-lines, signature-blank-lines: 4) = {
+#let render-signature-block(signature-lines, signature-blank-lines: 4, signing-field: none) = {
   signature-lines = ensure-array(signature-lines)
   // AFH 33-337: "fifth line below" = 4 blank lines between text and signature block.
   // breakable: false discourages orphaning the signature block onto a page by itself.
@@ -177,6 +177,20 @@
       default-pad
     }
     block(breakable: false)[
+      #if signing-field != none {
+        let stride = {
+          let s = LINE_STRIDE.get()
+          if s == none {
+            let one-line = measure(par(spacing: 0pt)[x]).height
+            measure(par(spacing: 0pt)[x#linebreak()x]).height - one-line
+          } else { s }
+        }
+        place(
+          dx: left-pad,
+          dy: -(stride * signature-blank-lines),
+          box(width: body-width - left-pad, height: stride * signature-blank-lines, signing-field),
+        )
+      }
       #align(left)[
         #pad(left: left-pad)[
           #text(hyphenate: false)[

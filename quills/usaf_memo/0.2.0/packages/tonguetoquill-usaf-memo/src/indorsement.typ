@@ -18,6 +18,7 @@
   to: none,
   signature_block: none,
   signature_blank_lines: 4,
+  signing_field: none,
   attachments: none,
   cc: none,
   date: none,
@@ -129,7 +130,7 @@
     }
   }
 
-  render-signature-block(signature_block, signature-blank-lines: signature_blank_lines)
+  render-signature-block(signature_block, signature-blank-lines: signature_blank_lines, signing-field: signing_field)
 
   render-backmatter-sections(attachments: attachments, cc: cc)
 }

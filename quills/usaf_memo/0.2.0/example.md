@@ -31,6 +31,9 @@ signature_block:
   - Duty Title
 tag_line: Aim High
 classification: UNCLASSIFIED
+# cui_controlled_by: SAF/AA          # Required when classification is CUI (DoDM 5200.48)
+# cui_category: Privacy/MED          # CUI category from the DoD CUI Registry
+# cui_poc: Capt J. Smith, DSN 555-1234, john.smith@us.af.mil
 ---
 
 The `usaf_memo` Quill package takes care of all 33-337 formatting details. Focus on the content.

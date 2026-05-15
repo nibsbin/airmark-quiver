@@ -182,6 +182,30 @@ main:
         compact: true
       description: "Optional marking appended after double slash (e.g. NF with classification CUI renders as CUI//NF). Leave blank to show only the classification with no //."
 
+    cui_controlled_by:
+      type: string
+      default: ""
+      ui:
+        group: Additional
+        compact: true
+      description: "CUI Designation Indicator (DoDM 5200.48): Office or organization that designated this information as CUI (e.g., 'SAF/AA'). Required when classification is CUI. Leave blank to omit the designation indicator block."
+
+    cui_category:
+      type: string
+      default: ""
+      ui:
+        group: Additional
+        compact: true
+      description: "CUI Designation Indicator (DoDM 5200.48): CUI category from the DoD CUI Registry (e.g., 'Privacy/MED', 'CTI', 'PRVCY'). Leave blank to omit."
+
+    cui_poc:
+      type: string
+      default: ""
+      ui:
+        group: Additional
+        compact: true
+      description: "CUI Designation Indicator (DoDM 5200.48): Point of contact for CUI questions (e.g., 'Capt J. Smith, DSN 555-1234, john.smith@us.af.mil'). Required when classification is CUI."
+
 leaf_kinds:
   indorsement:
     description: Chain of routing endorsements. Each endorsement block adds an official response or forwarding action to the original memo.

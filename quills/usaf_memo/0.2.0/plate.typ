@@ -21,8 +21,8 @@
   // Receiver information
   memo_for: data.memo_for,
 
-  // Sender information
-  memo_from: data.memo_from,
+  // Sender information (omitted for Memorandum for Record)
+  ..if "memo_from" in data { (memo_from: data.memo_from) },
 
   // Subject line
   subject: data.subject,

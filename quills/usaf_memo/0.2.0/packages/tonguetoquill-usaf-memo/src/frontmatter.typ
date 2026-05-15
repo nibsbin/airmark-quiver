@@ -31,7 +31,6 @@
 ) = {
   assert(subject != none, message: "subject is required")
   assert(memo_for != none, message: "memo_for is required")
-  assert(memo_from != none, message: "memo_from is required")
   assert(
     memo_style in ("usaf", "daf"),
     message: "memo_style must be \"usaf\" or \"daf\"",
@@ -147,7 +146,7 @@
 
   render-date-section(actual_date, memo-style: memo_style)
   render-for-section(memo_for, memo_for_cols)
-  render-from-section(memo_from)
+  if memo_from != none { render-from-section(memo_from) }
   render-subject-section(subject)
   render-references-section(references)
 

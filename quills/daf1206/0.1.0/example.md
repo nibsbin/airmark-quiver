@@ -15,9 +15,8 @@ Use this main body for page 1 accomplishments.
 - Keep bullet format.
 - Replace all placeholder values.
 
----
-CARD: accomplishments_continued
----
+```leaf accomplishments_continued
+```
 
 Use this card body only if page 2 overflow is needed.
 - Add continuation bullets here.

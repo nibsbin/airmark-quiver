@@ -136,10 +136,10 @@
       }
 
       // DoDM 5200.48 §3: CUI designation indicator block — first page only,
-      // bottom-left corner, above the classification banner.
+      // bottom-right corner, above the classification banner.
       context if counter(page).get().first() == 1 and cui_indicator != none {
         place(
-          bottom + left,
+          bottom + right,
           dy: -0.625in,
           block(
             inset: 0pt,

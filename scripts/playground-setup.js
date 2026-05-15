@@ -26,13 +26,13 @@ const pkgPath = join(playgroundDir, 'package.json');
 const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
 const localRef = `file:${root}`;
 
-// Update the direct dependency to the local path.
-// Don't use overrides — npm rejects an override that conflicts with a direct dep.
-pkg.dependencies ??= {};
-pkg.dependencies['@airmark/quiver'] = localRef;
-// Remove any stale override for this package to avoid the same conflict.
-if (pkg.overrides?.['@airmark/quiver']) {
-  delete pkg.overrides['@airmark/quiver'];
+// Update @airmark/quiver in whichever dep bucket it lives in (dev or prod).
+// Adding it to a second bucket causes npm to treat it as a conflicting override.
+if (pkg.devDependencies?.['@airmark/quiver']) {
+  pkg.devDependencies['@airmark/quiver'] = localRef;
+} else {
+  pkg.dependencies ??= {};
+  pkg.dependencies['@airmark/quiver'] = localRef;
 }
 
 writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');

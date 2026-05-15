@@ -29,7 +29,7 @@ commanders_auth: ""
 
 <!-- Example 1: Initial assignment to a unit -->
 ---
-KIND: experience
+CARD: experience
 date: 2025-01-15
 action: "Assigned to 1 ACCS/DOT as Weapons Director"
 written_grade: ""
@@ -41,7 +41,7 @@ auth_or_remarks: "Initial assignment"
 
 <!-- Example 2: Written upgrade evaluation -->
 ---
-KIND: experience
+CARD: experience
 date: 2025-03-15
 action: "Completed written upgrade evaluation for 3-Level"
 written_grade: "3"
@@ -53,7 +53,7 @@ auth_or_remarks: "Per AFMAN 13-1CRCV1"
 
 <!-- Example 3: Positional (live-environment) upgrade / certification -->
 ---
-KIND: experience
+CARD: experience
 date: 2025-06-20
 action: "Certified Mission Ready — positional upgrade"
 written_grade: ""
@@ -65,7 +65,7 @@ auth_or_remarks: "SSgt Jones, T.R."
 
 <!-- Example 4: Combined written + positional upgrade (both columns filled) -->
 ---
-KIND: experience
+CARD: experience
 date: 2025-08-01
 action: "Upgrade evaluation — written and positional"
 written_grade: "4"
@@ -77,7 +77,7 @@ auth_or_remarks: "Verified by unit commander"
 
 <!-- Example 5: PCS departure — no written/positional grade; omit grade dates (or use "") -->
 ---
-KIND: experience
+CARD: experience
 date: 2025-09-01
 action: "PCS to 726 ACS/MOC, Tinker AFB OK"
 written_grade: ""

@@ -1,10 +1,11 @@
 #import "@local/quillmark-helper:0.1.0": data
 
 // `type: date` fields arrive as Typst `datetime`; overlay text must be plain strings.
+// None or empty string defaults to today's date.
 #let show-date(v) = {
-  if v == none { "" }
-  else if type(v) == datetime { v.display("[month padding:none]/[day padding:none]/[year]") }
-  else { str(v) }
+  let d = if v == none or v == "" { datetime.today() } else { v }
+  if type(d) == datetime { d.display("[month padding:none]/[day padding:none]/[year]") }
+  else { str(d) }
 }
 
 #set page(width: 8.5in, height: 11in, margin: 0in)

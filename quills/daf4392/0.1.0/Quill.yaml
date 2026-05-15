@@ -14,14 +14,17 @@ main:
       type: string
       enum: [pmv, airplane, bus, train, motorcycle, other]
       required: true
+      ui:
+        compact: true
       description: "Matches the check box."
 
     departure_date:
       type: date
       required: true
+      default: ""
       ui:
         compact: true
-      description: "Date of initial departure."
+      description: "Date of initial departure. Defaults to today's date."
 
     final_destination:
       type: string
@@ -56,9 +59,10 @@ main:
     briefed_date:
       type: date
       required: true
+      default: ""
       ui:
         compact: true
-      description: "Put in today's date."
+      description: "Date of briefing. Defaults to today's date."
 
     briefee_name:
       type: string
@@ -91,10 +95,11 @@ leaf_kinds:
     fields:
       date:
         type: date
+        default: ""
         ui:
           group: Itinerary Entry
           compact: true
-        description: "Date for the itinerary row."
+        description: "Date for the itinerary row. Defaults to today's date."
       departure_point:
         type: string
         ui:

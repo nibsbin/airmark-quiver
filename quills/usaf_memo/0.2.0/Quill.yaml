@@ -187,6 +187,9 @@ leaf_kinds:
     description: Chain of routing endorsements. Each endorsement block adds an official response or forwarding action to the original memo.
     ui:
       title: Routing indorsement
+    body:
+      example: |
+        The first paragraph of the indorsement. Top-level paragraphs are auto-numbered per AFH 33-337.
     fields:
       from:
         type: string

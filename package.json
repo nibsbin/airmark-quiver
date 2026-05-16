@@ -16,11 +16,12 @@
     "node": ">=24"
   },
   "devDependencies": {
-    "@quillmark/quiver": "^0.7.0",
-    "@quillmark/wasm": "^0.78.0"
+    "@quillmark/quiver": "^0.11.0",
+    "@quillmark/wasm": "^0.80.0"
   },
   "scripts": {
-    "test": "node --test quiver.test.js",
+    "test": "quiver test",
+    "preview": "quiver preview",
     "playground:setup": "node scripts/playground-setup.js",
     "playground:dev": "node scripts/playground-dev.js",
     "release:patch": "npm version patch -m \"chore(release): %s\" && git push --follow-tags",

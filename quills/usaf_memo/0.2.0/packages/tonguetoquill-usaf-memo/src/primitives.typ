@@ -353,7 +353,9 @@
       (if attachment-count == 1 { "Attachment" } else { str(attachment-count) + " Attachments" })
         + " (listed on next page):"
     )
-    render-backmatter-section(attachments, section-label, numbering-style: "1.", continuation-label: continuation-label)
+    // AFH 33-337: a single attachment is not numbered; numbering applies to two or more.
+    let numbering-style = if attachment-count == 1 { none } else { "1." }
+    render-backmatter-section(attachments, section-label, numbering-style: numbering-style, continuation-label: continuation-label)
   }
 
   if cc != none and cc.len() > 0 {

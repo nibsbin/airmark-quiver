@@ -81,13 +81,12 @@
 
       if format == "separate_page" {
         pagebreak()
-        [#indorsement_label to #original_from, #display-date(original_date, memo-style: memo-style), #original_subject]
+        // AFH 33-337: top line = indorsement number, originator's office, original date, original subject
+        [#indorsement_label, #original_from, #display-date(original_date, memo-style: memo-style), #original_subject]
 
         blank-line()
-        grid(
-          columns: (auto, 1fr),
-          ind_from, align(right)[#if actual_date != none { display-date(actual_date, memo-style: memo-style) }],
-        )
+        // AFH 33-337: second line = indorsing office's address symbol, indorsement date
+        [#ind_from#if actual_date != none [, #display-date(actual_date, memo-style: memo-style)]]
 
         blank-line()
         grid(

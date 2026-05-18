@@ -83,9 +83,9 @@
       "type": "text",
       "bbox": [
         40.0,
-        99.0,
+        97.0,
         118.0,
-        113.0
+        111.0
       ],
       "page": 1,
       "options": null
@@ -95,9 +95,9 @@
       "type": "text",
       "bbox": [
         123.0,
-        99.0,
+        97.0,
         580.0,
-        113.0
+        111.0
       ],
       "page": 1,
       "options": null
@@ -118,9 +118,9 @@
       "name": "itin_departure_point_1",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         159.0,
-        290.0,
+        285.0,
         173.0
       ],
       "page": 1,
@@ -130,9 +130,9 @@
       "name": "itin_arrival_point_1",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         159.0,
-        445.0,
+        435.0,
         173.0
       ],
       "page": 1,
@@ -142,7 +142,7 @@
       "name": "itin_rest_length_1",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         159.0,
         510.0,
         173.0
@@ -154,7 +154,7 @@
       "name": "itin_mileage_1",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         159.0,
         575.0,
         173.0
@@ -178,9 +178,9 @@
       "name": "itin_departure_point_2",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         199.0,
-        290.0,
+        285.0,
         213.0
       ],
       "page": 1,
@@ -190,9 +190,9 @@
       "name": "itin_arrival_point_2",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         199.0,
-        445.0,
+        435.0,
         213.0
       ],
       "page": 1,
@@ -202,7 +202,7 @@
       "name": "itin_rest_length_2",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         199.0,
         510.0,
         213.0
@@ -214,7 +214,7 @@
       "name": "itin_mileage_2",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         199.0,
         575.0,
         213.0
@@ -238,9 +238,9 @@
       "name": "itin_departure_point_3",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         239.0,
-        290.0,
+        285.0,
         253.0
       ],
       "page": 1,
@@ -250,9 +250,9 @@
       "name": "itin_arrival_point_3",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         239.0,
-        445.0,
+        435.0,
         253.0
       ],
       "page": 1,
@@ -262,7 +262,7 @@
       "name": "itin_rest_length_3",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         239.0,
         510.0,
         253.0
@@ -274,7 +274,7 @@
       "name": "itin_mileage_3",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         239.0,
         575.0,
         253.0
@@ -298,9 +298,9 @@
       "name": "itin_departure_point_4",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         279.0,
-        290.0,
+        285.0,
         293.0
       ],
       "page": 1,
@@ -310,9 +310,9 @@
       "name": "itin_arrival_point_4",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         279.0,
-        445.0,
+        435.0,
         293.0
       ],
       "page": 1,
@@ -322,7 +322,7 @@
       "name": "itin_rest_length_4",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         279.0,
         510.0,
         293.0
@@ -334,7 +334,7 @@
       "name": "itin_mileage_4",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         279.0,
         575.0,
         293.0
@@ -358,9 +358,9 @@
       "name": "itin_departure_point_5",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         319.0,
-        290.0,
+        285.0,
         333.0
       ],
       "page": 1,
@@ -370,9 +370,9 @@
       "name": "itin_arrival_point_5",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         319.0,
-        445.0,
+        435.0,
         333.0
       ],
       "page": 1,
@@ -382,7 +382,7 @@
       "name": "itin_rest_length_5",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         319.0,
         510.0,
         333.0
@@ -394,7 +394,7 @@
       "name": "itin_mileage_5",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         319.0,
         575.0,
         333.0
@@ -418,9 +418,9 @@
       "name": "itin_departure_point_6",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         359.0,
-        290.0,
+        285.0,
         373.0
       ],
       "page": 1,
@@ -430,9 +430,9 @@
       "name": "itin_arrival_point_6",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         359.0,
-        445.0,
+        435.0,
         373.0
       ],
       "page": 1,
@@ -442,7 +442,7 @@
       "name": "itin_rest_length_6",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         359.0,
         510.0,
         373.0
@@ -454,7 +454,7 @@
       "name": "itin_mileage_6",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         359.0,
         575.0,
         373.0
@@ -478,9 +478,9 @@
       "name": "itin_departure_point_7",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         399.0,
-        290.0,
+        285.0,
         413.0
       ],
       "page": 1,
@@ -490,9 +490,9 @@
       "name": "itin_arrival_point_7",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         399.0,
-        445.0,
+        435.0,
         413.0
       ],
       "page": 1,
@@ -502,7 +502,7 @@
       "name": "itin_rest_length_7",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         399.0,
         510.0,
         413.0
@@ -514,7 +514,7 @@
       "name": "itin_mileage_7",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         399.0,
         575.0,
         413.0
@@ -538,9 +538,9 @@
       "name": "itin_departure_point_8",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         439.0,
-        290.0,
+        285.0,
         453.0
       ],
       "page": 1,
@@ -550,9 +550,9 @@
       "name": "itin_arrival_point_8",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         439.0,
-        445.0,
+        435.0,
         453.0
       ],
       "page": 1,
@@ -562,7 +562,7 @@
       "name": "itin_rest_length_8",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         439.0,
         510.0,
         453.0
@@ -574,7 +574,7 @@
       "name": "itin_mileage_8",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         439.0,
         575.0,
         453.0
@@ -598,9 +598,9 @@
       "name": "itin_departure_point_9",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         479.0,
-        290.0,
+        285.0,
         493.0
       ],
       "page": 1,
@@ -610,9 +610,9 @@
       "name": "itin_arrival_point_9",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         479.0,
-        445.0,
+        435.0,
         493.0
       ],
       "page": 1,
@@ -622,7 +622,7 @@
       "name": "itin_rest_length_9",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         479.0,
         510.0,
         493.0
@@ -634,7 +634,7 @@
       "name": "itin_mileage_9",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         479.0,
         575.0,
         493.0
@@ -658,9 +658,9 @@
       "name": "itin_departure_point_10",
       "type": "text",
       "bbox": [
-        135.0,
+        130.0,
         519.0,
-        290.0,
+        285.0,
         533.0
       ],
       "page": 1,
@@ -670,9 +670,9 @@
       "name": "itin_arrival_point_10",
       "type": "text",
       "bbox": [
-        295.0,
+        285.0,
         519.0,
-        445.0,
+        435.0,
         533.0
       ],
       "page": 1,
@@ -682,7 +682,7 @@
       "name": "itin_rest_length_10",
       "type": "text",
       "bbox": [
-        450.0,
+        435.0,
         519.0,
         510.0,
         533.0
@@ -694,7 +694,7 @@
       "name": "itin_mileage_10",
       "type": "text",
       "bbox": [
-        515.0,
+        505.0,
         519.0,
         575.0,
         533.0
@@ -755,9 +755,9 @@
       "type": "text",
       "bbox": [
         500.0,
-        619.0,
-        590.0,
-        633.0
+        617.0,
+        585.0,
+        631.0
       ],
       "page": 1,
       "options": null
@@ -778,10 +778,10 @@
       "name": "briefee_grade",
       "type": "text",
       "bbox": [
-        270.0,
-        649.0,
-        470.0,
-        663.0
+        255.0,
+        647.0,
+        455.0,
+        661.0
       ],
       "page": 1,
       "options": null
@@ -802,10 +802,10 @@
       "name": "briefer_grade",
       "type": "text",
       "bbox": [
-        270.0,
-        679.0,
-        470.0,
-        693.0
+        255.0,
+        677.0,
+        455.0,
+        691.0
       ],
       "page": 1,
       "options": null

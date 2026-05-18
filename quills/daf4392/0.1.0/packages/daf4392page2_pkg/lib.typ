@@ -25,6 +25,24 @@
   }
 }
 
+/// True when a schema field name corresponds to a date overlay.
+#let is-date-field(name) = {
+  name.ends-with("_date") or name.starts-with("itin_date_")
+}
+
+/// Format a date value for display as `DD Mon YYYY`.
+#let format-date(value) = {
+  if value == none {
+    none
+  } else if type(value) == datetime {
+    value.display("[day padding:zero] [month repr:short] [year]")
+  } else if type(value) == str and value == "" {
+    ""
+  } else {
+    str(value)
+  }
+}
+
 /// Should this field shrink text to a single line rather than word-wrap?
 /// True for short/narrow fields with brief content (grades, ranks, dates).
 /// `display` may be a string or content; char-count is skipped for content.
@@ -102,12 +120,13 @@
 #let render-field(field-type, value, width, height, field) = {
   if field-type == "text" {
     if value != none {
+      let display = if is-date-field(field.name) { format-date(value) } else { value }
       // Pass content through directly so styling (bold, italic, …) is preserved;
       // for plain strings, skip empty values.
-      if type(value) == content {
-        render-text-field(value, width, height, 1.5pt, 1pt)
-      } else if str(value) != "" {
-        render-text-field(str(value), width, height, 1.5pt, 1pt)
+      if type(display) == content {
+        render-text-field(display, width, height, 1.5pt, 1pt)
+      } else if str(display) != "" {
+        render-text-field(str(display), width, height, 1.5pt, 1pt)
       }
     }
   } else if field-type == "checkbox" {

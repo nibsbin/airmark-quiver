@@ -3,13 +3,6 @@
 
 #set text(font: "Arimo")
 
-// `type: date` fields arrive as Typst `datetime`; overlay text must be plain strings.
-#let show-date(v) = {
-  if v == none { "" } else if type(v) == datetime {
-    v.display("[month padding:none]/[day padding:none]/[year]")
-  } else { str(v) }
-}
-
 // Map snake_case Quill `data` keys to generated `form.typ` parameter names.
 #let vals = (:)
 
@@ -18,7 +11,7 @@
 #if mode != "" { vals.insert("mode_" + mode, true) }
 
 // Header row
-#if "departure_date" in data { vals.insert("departure_date", show-date(data.departure_date)) }
+#if "departure_date" in data { vals.insert("departure_date", data.departure_date) }
 #if "final_destination" in data { vals.insert("final_destination", data.final_destination) }
 
 // Proposed Travel Itinerary — one card per row, up to 10 rows.
@@ -30,8 +23,8 @@
       let n = str(row + 1)
       for col in itin-cols {
         let v = card.at(col, default: none)
-        let display = if col == "date" { show-date(v) } else if v == none { "" } else { str(v) }
-        if display != "" { vals.insert("itin_" + col + "_" + n, display) }
+        let display = if col == "date" { v } else if v == none { "" } else { str(v) }
+        if display != none and display != "" { vals.insert("itin_" + col + "_" + n, display) }
       }
       row = row + 1
     }
@@ -51,7 +44,7 @@
 
 // Acknowledgements
 #if "organization" in data { vals.insert("organization", data.organization) }
-#if "briefed_date" in data { vals.insert("briefed_date", show-date(data.briefed_date)) }
+#if "briefed_date" in data { vals.insert("briefed_date", data.briefed_date) }
 #if "briefee_name" in data { vals.insert("briefee_name", data.briefee_name) }
 #if "briefee_grade" in data { vals.insert("briefee_grade", data.briefee_grade) }
 #if "briefer_name" in data { vals.insert("briefer_name", data.briefer_name) }
